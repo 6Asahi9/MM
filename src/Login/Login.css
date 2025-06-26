@@ -1,0 +1,226 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+.login-page *,
+.login-page *::before,
+.login-page *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.login-page {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(to bottom, #f4e2d8, #a8e6cf, #56cfe1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.login-page .wrapper {
+  position: relative;
+  width: 850px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.login-page #sleeping-cat-gif {
+  position: absolute;
+  top: -50px;
+  left: 0;
+  width: 150px;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.login-page .forgot-link {
+  margin: 15px 0 15px;
+}
+
+.login-page .forgot-link a {
+  font-size: 14.5px;
+  color: #333;
+  text-decoration: none;
+}
+
+.login-page .social-icons a {
+  display: inline-flex;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  color: #333;
+  text-decoration: none;
+  margin: 0 3px;
+  margin-bottom: 20px;
+  background-color: #fff1f1;
+  border-color: #333;
+}
+
+.login-page .container {
+  background: linear-gradient(to bottom, #f4e2d8, #a8e6cf, #56cfe1);
+
+  border-radius: 60px;
+  border: 4px solid rgb(235, 231, 213);
+  box-shadow: 0 0 20px rgb(232, 231, 227), 0 0 40px rgb(234, 233, 227),
+    0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  position: relative;
+  overflow: hidden;
+  width: 850px;
+  max-width: 100%;
+  min-height: 550px;
+}
+
+.login-page .form-container {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+}
+
+.login-page .sign-in-container {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
+
+.login-page .sign-up-container {
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.login-page .container.right-panel-active .sign-in-container {
+  transform: translateX(100%);
+}
+
+.login-page .container.right-panel-active .sign-up-container {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+}
+
+.login-page form {
+  background: linear-gradient(to bottom, #f4e2d8, #a8e6cf, #56cfe1);
+
+  display: flex;
+  flex-direction: column;
+  padding: 0 50px;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.login-page input {
+  background-color: #fff1f1;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 100%;
+  border-color: #333;
+}
+
+.login-page input::placeholder {
+  color: #333;
+  font-weight: 500;
+}
+
+.login-page .btn {
+  width: 70%;
+  height: 48px;
+  background: #1a237e;
+  border-radius: 80px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 600;
+}
+
+.login-page button {
+  border: none;
+  padding: 12px 45px;
+  background-color: #1e90ff;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 80ms ease-in;
+  border-radius: 50px;
+}
+
+.login-page button.ghost {
+  background-color: transparent;
+  border: 2px solid #fff;
+}
+
+.login-page .overlay-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+  z-index: 100;
+}
+
+.login-page .container.right-panel-active .overlay-container {
+  transform: translateX(-100%);
+}
+
+.login-page .overlay {
+  background: #1a237e;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 0;
+  color: #ffffff;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+
+.login-page .container.right-panel-active .overlay {
+  transform: translateX(50%);
+}
+
+.login-page .overlay-panel {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 40px;
+  height: 100%;
+  width: 50%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+
+.login-page .overlay-left {
+  transform: translateX(-20%);
+  left: 0;
+}
+
+.login-page .container.right-panel-active .overlay-left {
+  transform: translateX(0);
+}
+
+.login-page .overlay-right {
+  right: 0;
+  transform: translateX(0);
+}
+
+.login-page .container.right-panel-active .overlay-right {
+  transform: translateX(20%);
+}

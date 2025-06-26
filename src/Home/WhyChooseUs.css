@@ -1,0 +1,64 @@
+.why-container {
+  width: 100%;
+  background: linear-gradient(to bottom, #a0f0d0, #1ca3ec);
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  font-family: "Libre Franklin", sans-serif;
+  overflow-x: hidden;
+}
+
+.why-inner {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.why-title {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  text-align: center;
+  color: #000000;
+}
+
+.why-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+.why-card {
+  flex: 1 1 250px;
+  max-width: 300px;
+  background: white;
+  color: #333;
+  border-radius: 36px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 10px 0px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.why-card:hover {
+  transform: translateY(-5px);
+}
+
+.why-icon {
+  font-size: 2.5rem;
+  color: #1ca3ec;
+  margin-bottom: 16px;
+}
+
+.why-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+}
+
+.why-card p {
+  font-size: 1rem;
+  line-height: 1.6;
+}

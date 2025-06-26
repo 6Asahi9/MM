@@ -1,0 +1,105 @@
+.footer-wrapper {
+  background-color: #000;
+  color: #fff;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.footer-card-container {
+  position: relative;
+  width: 300px;
+  max-width: 80%;
+  margin-bottom: 30px;
+  cursor: pointer;
+}
+
+.footer-card-img {
+  width: 50%;
+  height: auto;
+  position: relative;
+  z-index: 10;
+  margin-left: 90px;
+  pointer-events: auto;
+  transition: opacity 1.6s ease;
+}
+
+.footer-card-img.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.footer-card-img.fading-out {
+  opacity: 0;
+  visibility: visible;
+  pointer-events: none;
+}
+
+.footer-card-img.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.footer-wrapper .footer-contact {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.footer-wrapper .footer-contact h4 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.footer-wrapper .social-icons {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 18px;
+}
+
+.footer-wrapper .social-icons a {
+  color: #fff;
+  font-size: 1.4rem;
+  transition: transform 0.2s ease;
+}
+
+.footer-wrapper .social-icons a:hover {
+  transform: scale(1.15);
+  color: #ffd700;
+}
+
+.footer-paw-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.footer-links a {
+  color: #bbb;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #fff;
+  text-decoration: underline;
+}

@@ -1,0 +1,45 @@
+.floating-login-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: none;
+
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  z-index: 9999;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  background: linear-gradient(
+    270deg,
+    #1ca3ec,
+    #40e0d0,
+    #a0f0d0,
+    #40e0d0,
+    #1ca3ec
+  );
+  background-size: 1000% 1000%;
+  animation: animatedGradient 15s ease infinite;
+}
+
+@keyframes animatedGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.floating-login-button:hover {
+  background-color: #eee;
+  transform: scale(1.08);
+}
