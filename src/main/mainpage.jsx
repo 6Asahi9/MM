@@ -16,7 +16,7 @@ const MainPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 16;
 
-  const products = Array.from({ length: 30 }, (_, index) => ({
+  const products = Array.from({ length: 480 }, (_, index) => ({
     id: index + 1,
     title: `Product ${index + 1}`,
     price: (index + 1) * 100,

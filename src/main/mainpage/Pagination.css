@@ -25,3 +25,11 @@
   color: rgb(0, 0, 0);
   border: none;
 }
+
+.ellipsis {
+  padding: 8px 12px;
+  font-weight: bold;
+  color: #666;
+  user-select: none;
+  pointer-events: none;
+}
