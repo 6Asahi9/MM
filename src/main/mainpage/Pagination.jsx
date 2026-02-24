@@ -25,7 +25,6 @@ const Pagination = ({
 
   return (
     <div className="pagination">
-      {/* First page button */}
       {startPage > 1 && (
         <>
           <button onClick={() => setCurrentPage(1)}>1</button>

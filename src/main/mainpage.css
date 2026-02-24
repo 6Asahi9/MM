@@ -15,16 +15,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 40px;
+  padding: 10px 40px;
   background-color: white;
-  margin: 20px auto;
+  margin: 5px auto;
   width: 95%;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
-}
-
-.logo-img {
-  height: 45px;
-  object-fit: contain;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.418);
 }
 
 .search-bar {
@@ -42,11 +37,19 @@
   color: white;
   border-radius: 6px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .icons button:hover {
-  background-color: #178cc8;
+  background: #1b8fce;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.559);
+}
+
+.icons button:active {
+  transform: translateY(0px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
 .category-section {
