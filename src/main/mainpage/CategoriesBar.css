@@ -1,0 +1,22 @@
+.categories-bar {
+  display: flex;
+  gap: 25px;
+  padding: 15px 30px;
+  background-color: white;
+  margin-top: 15px;
+  border-radius: 6px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.categories-bar span {
+  cursor: pointer;
+  font-weight: 550;
+  transition: 0.2s;
+}
+
+.categories-bar span:hover {
+  color: #212edd;
+}

@@ -1,0 +1,13 @@
+.sale-banner {
+  background: linear-gradient(90deg, #ff4d4d, #ff0000);
+  color: white;
+  text-align: center;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+  border-radius: 6px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}

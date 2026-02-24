@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Intro from "./Home/Intro";
 import Hub from "./Home/Hub";
 import Login from "./Login/Login";
-import Account from "./Home/Account";
+import Main from "./main/mainpage";
 import FadeInOutSection from "./Tools/FadeInOnce";
 import Fade from "./Tools/Fade";
 import WhyChooseUs from "./Home/WhyChooseUs";
@@ -10,6 +10,7 @@ import NotFound from "./NotFound";
 import ReviewWheel from "./Home/ReviewWheel";
 import Footer from "./Home/Footer";
 import FloatingControls from "./Tools/FloatingControls";
+import Account from "./Home/Account";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
         }
       />
       <Route path="/login" element={<Login />} />
+      <Route path="/main" element={<Main />} />
       <Route path="/account" element={<Account />} />
       <Route path="*" element={<NotFound />} />
     </Routes>

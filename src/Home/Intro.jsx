@@ -42,7 +42,7 @@ export default function Intro() {
         }`}
       >
         <img src={logo} alt="Miya Marines Logo" className="intro-logo" />
-        <button className="intro-button" onClick={() => navigate("/account")}>
+        <button className="intro-button" onClick={() => navigate("/main")}>
           Shop Now!
         </button>
       </div>
