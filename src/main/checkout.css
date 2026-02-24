@@ -1,0 +1,126 @@
+.checkout-whole {
+  min-height: 100vh;
+  background: linear-gradient(
+    to top,
+    #000000 0%,
+    #000000 30%,
+    #203a43 55%,
+    #2c5364 75%
+  );
+  padding: 60px 20px;
+}
+
+.checkout-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  font-family: "Inter", Arial, sans-serif;
+}
+
+.summary-card {
+  display: flex;
+  gap: 30px;
+  padding: 20px;
+  border-radius: 20px;
+  background: #f8f9fa;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+  align-items: center;
+}
+
+.thumb {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 16px;
+  transition: transform 0.3s ease;
+}
+
+.thumb:hover {
+  transform: scale(1.05);
+}
+
+.summary-info p {
+  margin: 6px 0;
+  color: #444;
+}
+
+.total {
+  font-size: 26px;
+  font-weight: 700;
+  margin-top: 10px;
+  color: #111;
+}
+
+.payment-section {
+  margin-bottom: 25px;
+}
+
+.payment-section label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.banking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.banking-form input,
+.banking-form select {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.banking-form input:focus,
+.banking-form select:focus {
+  border-color: #2c5364;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(44, 83, 100, 0.15);
+}
+
+.checkout-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.cancel,
+.confirm {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel {
+  background: #e0e0e0;
+}
+
+.cancel:hover {
+  background: #d5d5d5;
+}
+
+.confirm {
+  background: #111;
+  color: white;
+}
+
+.confirm:hover {
+  background: #2c5364;
+  transform: translateY(-2px);
+}

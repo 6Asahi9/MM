@@ -117,7 +117,9 @@ const BuyPage = () => {
 
             <div className="buttons">
               <button className="add-cart">Add to Cart</button>
-              <button className="buy-now">Buy Now</button>
+              <button className="buy-now" onClick={() => navigate("/checkout")}>
+                Buy Now
+              </button>
             </div>
           </div>
         </div>

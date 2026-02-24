@@ -12,7 +12,7 @@ import Footer from "./Home/Footer";
 import FloatingControls from "./Tools/FloatingControls";
 import Account from "./Home/Account";
 import BuyPage from "./main/buypage";
-
+import Checkout from "./main/checkout";
 export default function App() {
   return (
     <Routes>
@@ -34,6 +34,8 @@ export default function App() {
       <Route path="/main" element={<Main />} />
       <Route path="/buypage" element={<BuyPage />} />
       <Route path="/account" element={<Account />} />
+      <Route path="/checkout" element={<Checkout />} />
+
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
