@@ -11,6 +11,7 @@ import ReviewWheel from "./Home/ReviewWheel";
 import Footer from "./Home/Footer";
 import FloatingControls from "./Tools/FloatingControls";
 import Account from "./Home/Account";
+import BuyPage from "./main/buypage";
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
       />
       <Route path="/login" element={<Login />} />
       <Route path="/main" element={<Main />} />
+      <Route path="/buypage" element={<BuyPage />} />
       <Route path="/account" element={<Account />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
