@@ -1,10 +1,76 @@
-.acc-container {
+.account-whole {
   min-height: 100vh;
+  padding: 10px 20px;
   background: linear-gradient(
     to top,
-    #000000 30%,
-    #2c3e50 60%,
-    #3b5998 80%,
-    #d6e4f0 100%
+    #000000 50%,
+    #1f3a5f 60%,
+    #2874a6 80%,
+    #d6eaf8 100%
   );
+}
+
+.brand-name {
+  cursor: pointer;
+}
+
+#My-account {
+  font-family: "Playfair Display", serif;
+}
+
+.logo-img {
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.account-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  font-family: "Inter", Arial, sans-serif;
+}
+
+.account-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.account-tabs button {
+  flex: 1;
+  padding: 12px 0;
+  border: none;
+  border-radius: 12px;
+  background: #ddd;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.account-tabs button.active-tab {
+  background: #2c5364;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.account-tabs button:hover {
+  background: #145c8c;
+  color: white;
+}
+
+.profile-tab,
+.security-tab {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 20px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+}
+
+.profile-tab p,
+.security-tab p {
+  margin: 10px 0;
+  font-size: 16px;
 }

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./cart.css";
 import logo from "../assets/Images/logo-modified.png";
 import { useNavigate } from "react-router-dom";
+import Footer from "../Home/Footer";
 
 const demoProducts = [
   {
@@ -57,6 +58,18 @@ export default function Cart() {
         <h2 id="My-shop">🛒 My Shop</h2>
 
         <div className="cart-tabs">
+          <button
+            className={tab === "profile" ? "active-tab" : ""}
+            onClick={() => nav("/account")}
+          >
+            Profile
+          </button>
+          <button
+            className={tab === "security" ? "active-tab" : ""}
+            onClick={() => nav("/account")}
+          >
+            Security
+          </button>
           <button
             className={tab === "cart" ? "active-tab" : ""}
             onClick={() => setTab("cart")}
@@ -114,6 +127,7 @@ export default function Cart() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }
