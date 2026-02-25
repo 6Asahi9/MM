@@ -15,6 +15,7 @@ import BuyPage from "./main/buypage";
 import Checkout from "./main/checkout";
 import Cart from "./main/cart";
 import Sec from "./main/Security";
+import Publish from "./main/publish";
 
 export default function App() {
   return (
@@ -40,6 +41,7 @@ export default function App() {
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/security" element={<Sec />} />
+      <Route path="/publish" element={<Publish />} />
 
       <Route path="*" element={<NotFound />} />
     </Routes>

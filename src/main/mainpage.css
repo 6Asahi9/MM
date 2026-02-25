@@ -18,7 +18,7 @@
   padding: 14px 60px;
   background-color: white;
   width: 100%;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  /* box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); */
   box-sizing: border-box;
   gap: 20px;
 }
