@@ -2,8 +2,11 @@ import React, { useEffect } from "react";
 import "./Login.css";
 import sleepingCat from "../assets/Gif/cat-sleep.gif";
 import "boxicons/css/boxicons.min.css";
+import { useNavigate } from "react-router-dom";
+import logo from "../assets/Images/logo-modified.png";
 
 const Login = () => {
+  const nav = useNavigate();
   useEffect(() => {
     const container = document.getElementById("container");
     const signUpBtn = document.getElementById("signUp");
@@ -17,7 +20,6 @@ const Login = () => {
       container.classList.remove("right-panel-active");
     });
 
-    // Cleanup
     return () => {
       signUpBtn.removeEventListener("click", () => {});
       signInBtn.removeEventListener("click", () => {});
@@ -26,6 +28,20 @@ const Login = () => {
 
   return (
     <div className="login-page">
+      {/* Brand Header */}
+      <div className="login-brand">
+        <div className="brand-container">
+          <img
+            src={logo}
+            alt="Logo"
+            className="logo-img"
+            onClick={() => nav("/main")}
+          />
+          <span className="brand-name" onClick={() => nav("/main")}>
+            Miya Marines
+          </span>
+        </div>
+      </div>
       <div className="wrapper">
         <img src={sleepingCat} alt="Sleeping Cat" id="sleeping-cat-gif" />
         <div className="container" id="container">
