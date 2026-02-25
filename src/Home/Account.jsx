@@ -77,7 +77,7 @@ export default function Account() {
               <strong>Address:</strong> {userInfo.address}
             </p>
             <p>
-              <strong>Date of Birth:</strong> {userInfo.dob}
+              <strong>DOB:</strong> {userInfo.dob}
             </p>
             <p>
               <strong>Bank:</strong> {userInfo.bank}
