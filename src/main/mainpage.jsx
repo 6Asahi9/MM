@@ -21,7 +21,7 @@ const MainPage = () => {
     id: index + 1,
     title: `Product ${index + 1}`,
     price: (index + 1) * 100,
-    image: "https://via.placeholder.com/150",
+    image: "https://picsum.photos/id/1015/800/800",
   }));
 
   const startIndex = (currentPage - 1) * productsPerPage;
@@ -34,7 +34,7 @@ const MainPage = () => {
         <div className="top-bar">
           <div className="brand-container" onClick={() => navigate("/home")}>
             <img src={logo} alt="Logo" className="logo-img" />
-            <span className="brand-name">Miya Marines</span>
+            <span id="brand-name">Miya Marines</span>
           </div>
           <input type="text" placeholder="Search..." className="search-bar" />
           <div className="icons">
@@ -48,7 +48,6 @@ const MainPage = () => {
         </div>
 
         {isSaleActive && <SaleBanner />}
-
         {currentPage === 1 && <CategoriesBar />}
       </div>
 

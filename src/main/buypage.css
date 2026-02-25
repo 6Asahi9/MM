@@ -10,6 +10,13 @@
     #aed6f1 100%
   );
 }
+.brand-name {
+  font-family: "Playfair Display", serif;
+  font-size: 26px;
+  color: black;
+  transition: 0.2s;
+}
+
 .checkout-header {
   top: 0;
   z-index: 1000;

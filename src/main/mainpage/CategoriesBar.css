@@ -5,8 +5,9 @@
   background-color: white;
   margin-top: 15px;
   border-radius: 6px;
-  width: 95%;
+  width: 100%;
   margin-left: auto;
+  color: rgba(255, 255, 255, 0.927);
   margin-right: auto;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
@@ -18,5 +19,5 @@
 }
 
 .categories-bar span:hover {
-  color: #212edd;
+  color: #dddd21;
 }

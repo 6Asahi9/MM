@@ -1,13 +1,28 @@
 .sale-banner {
-  background: linear-gradient(90deg, #ff4d4d, #ff0000);
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   color: white;
-  text-align: center;
-  padding: 12px;
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 10px;
-  border-radius: 6px;
+  padding: 60px 30px;
+  margin-top: 20px;
+  border-radius: 30px;
   width: 95%;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
+}
+
+.sale-header h2 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.sale-header p {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+.sale-products {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  margin-top: 40px;
 }
