@@ -10,7 +10,7 @@ export default function Account() {
   const userId = location.state?.userId;
 
   const goToHome = () => {
-    navigate("/home");
+    navigate("/main");
   };
 
   return (

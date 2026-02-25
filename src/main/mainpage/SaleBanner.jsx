@@ -33,8 +33,10 @@ const SaleBanner = () => {
   return (
     <div className="sale-banner">
       <div className="sale-header">
-        <h2>Make Waves This Season 🌊</h2>
-        <p>Up to 50% off curated marine essentials — Limited Time Only</p>
+        <h2 id="big-name">Make Waves This Season 🌊</h2>
+        <p id="smaller-name">
+          Up to 50% off curated marine essentials — Limited Time Only
+        </p>
       </div>
 
       <div className="sale-products">

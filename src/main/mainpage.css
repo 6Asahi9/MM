@@ -43,7 +43,7 @@
   transition: 0.2s;
 }
 
-.brand-container:hover .brand-name {
+.brand-container:hover #brand-name {
   transform: scale(1.05);
 }
 
