@@ -13,6 +13,9 @@ export default function Account() {
     email: "xxxxx@example.com",
     phone: "+xx xxxxx xxxxx",
     bank: "HDFC Bank",
+    upi: "xxxxxxxxxx",
+    dob: "xx/xx/xxxx",
+    address: "xxxxxxxxxxxxxxxxxxxxxxxxxx",
   };
 
   return (
@@ -62,7 +65,7 @@ export default function Account() {
         {tab === "profile" && (
           <div className="profile-tab">
             <p>
-              <strong>Name:</strong> {userInfo.name}
+              <strong>User Name:</strong> {userInfo.name}
             </p>
             <p>
               <strong>Email:</strong> {userInfo.email}
@@ -71,7 +74,16 @@ export default function Account() {
               <strong>Phone:</strong> {userInfo.phone}
             </p>
             <p>
+              <strong>Address:</strong> {userInfo.address}
+            </p>
+            <p>
+              <strong>Date of Birth:</strong> {userInfo.dob}
+            </p>
+            <p>
               <strong>Bank:</strong> {userInfo.bank}
+            </p>
+            <p>
+              <strong>UPI number:</strong> {userInfo.upi}
             </p>
           </div>
         )}

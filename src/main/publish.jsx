@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./publish.css";
 import logo from "../assets/Images/logo-modified.png";
 import { useNavigate } from "react-router-dom";
+import { FaUserCircle, FaShoppingCart, FaUpload } from "react-icons/fa";
 
 export default function Publish() {
   const [productName, setProductName] = useState("");
@@ -44,10 +45,20 @@ export default function Publish() {
         <span className="brand-name" onClick={() => nav("/main")}>
           Miya Marines
         </span>
+        <div id="publish-icons">
+          <div className="icons">
+            <button onClick={() => nav("/account")}>
+              <FaUserCircle size={35} />
+            </button>
+            <button onClick={() => nav("/cart")}>
+              <FaShoppingCart size={30} />
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className="publish-container">
-        <h2>📤 Publish Product</h2>
+        <h1>Publish Product</h1>
         <form onSubmit={handleSubmit} className="publish-form">
           <div className="form-group">
             <label>Product Image</label>

@@ -7,7 +7,7 @@ import Pagination from "./mainpage/Pagination";
 import "./mainpage.css";
 import logo from "../assets/Images/logo-modified.png";
 import Footer from "../Home/Footer";
-import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
+import { FaUserCircle, FaShoppingCart, FaUpload } from "react-icons/fa";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -43,6 +43,9 @@ const MainPage = () => {
             </button>
             <button onClick={() => navigate("/cart")}>
               <FaShoppingCart size={30} />
+            </button>
+            <button onClick={() => navigate("/publish")}>
+              <FaUpload size={30} />
             </button>
           </div>
         </div>

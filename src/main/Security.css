@@ -87,3 +87,28 @@ input:checked + .slider::before {
   background: #145c8c;
   transform: translateY(-1px);
 }
+
+.action-btn {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: #2c5364;
+  color: white;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  background: #145c8c;
+  transform: translateY(-1px);
+}
+
+.delete-btn {
+  background: #e74c3c;
+}
+
+.delete-btn:hover {
+  background: #c0392b;
+  transform: translateY(-1px);
+}

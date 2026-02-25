@@ -116,6 +116,43 @@ export default function Account() {
                 <button className="edit-btn">View</button>
               </div>
             </div>
+            <div className="security-item action-item">
+              <div className="item-left">
+                <span>Log Out</span>
+              </div>
+              <div className="item-right">
+                <button
+                  className="action-btn"
+                  onClick={() => {
+                    alert("Logged out!");
+                  }}
+                >
+                  Log Out
+                </button>
+              </div>
+            </div>
+
+            <div className="security-item action-item">
+              <div className="item-left">
+                <span>Delete Account</span>
+              </div>
+              <div className="item-right">
+                <button
+                  className="action-btn delete-btn"
+                  onClick={() => {
+                    if (
+                      window.confirm(
+                        "Are you sure you want to delete your account? This cannot be undone!",
+                      )
+                    ) {
+                      alert("Account deleted!");
+                    }
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>
