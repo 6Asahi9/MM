@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./Intro.css";
+import "./Account.css";
 import { useLocation } from "react-router-dom";
 
 export default function Account() {
@@ -14,7 +14,7 @@ export default function Account() {
   };
 
   return (
-    <div className="intro-container">
+    <div className="acc-container">
       <h2>Account Section</h2>
       {userId ? <p>Received ID: {userId}</p> : <p>No ID received yet.</p>}
       <p>This is the Account container content.</p>

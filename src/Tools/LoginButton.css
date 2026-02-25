@@ -1,5 +1,5 @@
 .floating-login-button {
-  position: fixed;
+  position: flex;
   top: 20px;
   right: 20px;
   width: 46px;
@@ -14,7 +14,9 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   z-index: 9999;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
   background: linear-gradient(
     270deg,
     #1ca3ec,

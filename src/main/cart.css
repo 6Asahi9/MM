@@ -1,0 +1,120 @@
+.cart-whole {
+  min-height: 100vh;
+  padding: 10px 20px;
+  background: linear-gradient(
+    to top,
+    #000000 30%,
+    #1f3a5f 60%,
+    #2874a6 80%,
+    #d6eaf8 100%
+  );
+}
+
+.brand-name {
+  cursor: pointer;
+}
+
+#My-shop {
+  font-family: "Playfair Display", serif;
+}
+
+.logo-img {
+  cursor: pointer;
+}
+
+.cart-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  font-family: "Inter", Arial, sans-serif;
+}
+
+.cart-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.cart-tabs button {
+  flex: 1;
+  padding: 12px 0;
+  border: none;
+  border-radius: 12px;
+  background: #ddd;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cart-tabs button.active-tab {
+  background: #2c5364;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.cart-tabs button:hover {
+  background: #145c8c;
+  color: white;
+}
+
+.cart-card {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 20px;
+  align-items: center;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+.past-card {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.thumb {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.thumb:hover {
+  transform: scale(1.05);
+}
+
+.cart-info p {
+  margin: 5px 0;
+}
+
+.add-cart-btn {
+  margin-top: 10px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  background: #2c5364;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-cart-btn:hover {
+  background: #145c8c;
+  transform: translateY(-2px);
+}
+
+.cart-summary {
+  text-align: right;
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.total {
+  font-weight: 700;
+  font-size: 22px;
+}

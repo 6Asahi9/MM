@@ -1,0 +1,10 @@
+.acc-container {
+  min-height: 100vh;
+  background: linear-gradient(
+    to top,
+    #000000 30%,
+    #2c3e50 60%,
+    #3b5998 80%,
+    #d6e4f0 100%
+  );
+}

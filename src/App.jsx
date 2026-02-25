@@ -13,6 +13,8 @@ import FloatingControls from "./Tools/FloatingControls";
 import Account from "./Home/Account";
 import BuyPage from "./main/buypage";
 import Checkout from "./main/checkout";
+import Cart from "./main/cart";
+
 export default function App() {
   return (
     <Routes>
@@ -35,6 +37,7 @@ export default function App() {
       <Route path="/buypage" element={<BuyPage />} />
       <Route path="/account" element={<Account />} />
       <Route path="/checkout" element={<Checkout />} />
+      <Route path="/cart" element={<Cart />} />
 
       <Route path="*" element={<NotFound />} />
     </Routes>

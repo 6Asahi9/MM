@@ -4,6 +4,8 @@ import ProductGrid from "./mainpage/ProductGrid";
 import Pagination from "./mainpage/Pagination";
 import Footer from "../Home/Footer";
 import "./buypage.css";
+import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
+import logo from "../assets/Images/logo-modified.png";
 
 const BuyPage = () => {
   const navigate = useNavigate();
@@ -64,15 +66,27 @@ const BuyPage = () => {
   return (
     <div className="Buy-whole">
       <div className="checkout-header">
-        <button className="backbutton" onClick={() => navigate("/main")}>
-          Back
-        </button>
+        <div className="brand-container">
+          <img
+            src={logo}
+            alt="Logo"
+            className="logo-img"
+            onClick={() => navigate("/main")}
+          />
+          <span className="brand-name" onClick={() => navigate("/main")}>
+            Miya Marines
+          </span>
+        </div>
 
         <input type="text" placeholder="Search..." className="search-bar" />
 
         <div className="icons">
-          <button onClick={() => navigate("/account")}>Account</button>
-          <button onClick={() => navigate("/account/mycart")}>My Cart</button>
+          <button onClick={() => navigate("/account")}>
+            <FaUserCircle size={35} />
+          </button>
+          <button onClick={() => navigate("/cart")}>
+            <FaShoppingCart size={30} />
+          </button>
         </div>
       </div>
       <div className="buy-container">
@@ -116,7 +130,9 @@ const BuyPage = () => {
             <p className="description">{product.description}</p>
 
             <div className="buttons">
-              <button className="add-cart">Add to Cart</button>
+              <button className="add-cart" onClick={() => navigate("/cart")}>
+                Add to Cart
+              </button>
               <button className="buy-now" onClick={() => navigate("/checkout")}>
                 Buy Now
               </button>

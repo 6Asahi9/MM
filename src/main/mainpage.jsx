@@ -7,6 +7,7 @@ import Pagination from "./mainpage/Pagination";
 import "./mainpage.css";
 import logo from "../assets/Images/logo-modified.png";
 import Footer from "../Home/Footer";
+import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -29,23 +30,27 @@ const MainPage = () => {
 
   return (
     <div className="main-container">
-      <div className="top-bar">
-        <div className="brand-container" onClick={() => navigate("/home")}>
-          <img src={logo} alt="Logo" className="logo-img" />
-          <span className="brand-name">Miya Marines</span>
+      <div className="header-background">
+        <div className="top-bar">
+          <div className="brand-container" onClick={() => navigate("/home")}>
+            <img src={logo} alt="Logo" className="logo-img" />
+            <span className="brand-name">Miya Marines</span>
+          </div>
+          <input type="text" placeholder="Search..." className="search-bar" />
+          <div className="icons">
+            <button onClick={() => navigate("/account")}>
+              <FaUserCircle size={35} />
+            </button>
+            <button onClick={() => navigate("/cart")}>
+              <FaShoppingCart size={30} />
+            </button>
+          </div>
         </div>
 
-        <input type="text" placeholder="Search..." className="search-bar" />
+        {isSaleActive && <SaleBanner />}
 
-        <div className="icons">
-          <button onClick={() => navigate("/account")}>Account</button>
-          <button onClick={() => navigate("/account/mycart")}>My Cart</button>
-        </div>
+        {currentPage === 1 && <CategoriesBar />}
       </div>
-
-      {isSaleActive && <SaleBanner />}
-
-      {currentPage === 1 && <CategoriesBar />}
 
       <ProductGrid products={visibleProducts} />
 
