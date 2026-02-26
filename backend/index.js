@@ -3,7 +3,7 @@ import authRoutes from "./Test/routes/auth.js";
 app.use("/api/auth", authRoutes);
 // ------------------------TEST-----------------------------
 
-import connectDB from "./db.js";
+import connectDB from "./config/db.js";
 
 const express = require("express");
 const cors = require("cors");
