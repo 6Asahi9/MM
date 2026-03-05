@@ -1,15 +1,11 @@
-import mongoose from "mongoose";
+const { Pool } = require("pg");
+require("dotenv").config();
 
-const connectDB = async () => {
-  try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/yourDBname", {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("🟢 MongoDB connected");
-  } catch (err) {
-    console.error("❌ MongoDB connection failed", err);
-  }
-};
+const pool = new Pool({
+  connectionString: process.env.PG_URI,
+  ssl: { rejectUnauthorized: false },
+});
 
-export default connectDB;
+pool.on("connect", () => console.log("Connected to Neon Postgre"));
+
+module.exports = pool;
