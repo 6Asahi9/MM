@@ -8,6 +8,9 @@ const productRoutes = require("./routes/product.routes");
 const authRoutes = require("./routes/auth.routes");
 const orderRoutes = require("./routes/order.routes");
 const commentRoutes = require("./routes/comment.routes");
+const userRoutes = require("./routes/user.routes");
+const paymentRoutes = require("./routes/payment.routes");
+const { errorHandler } = require("./middleware/error.middleware");
 
 const app = express();
 
@@ -19,6 +22,9 @@ app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/payments", paymentRoutes);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
