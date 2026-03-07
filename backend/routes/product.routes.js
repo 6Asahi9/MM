@@ -6,6 +6,9 @@ const {
   createProduct,
   getProductById,
   searchProducts,
+  updateProduct,
+  deleteProduct,
+  addRating,
 } = require("../controllers/product.controller");
 
 router.get("/", getProducts);
