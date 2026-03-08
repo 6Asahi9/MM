@@ -28,7 +28,6 @@ const Login = () => {
 
   return (
     <div className="login-page">
-      {/* Brand Header */}
       <div className="login-brand">
         <div className="brand-container">
           <img
