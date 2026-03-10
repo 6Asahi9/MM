@@ -26,6 +26,7 @@ app.use(
     credentials: true,
   }),
 );
+app.options("*", cors());
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -36,8 +37,6 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
-
-app.options("*", cors());
 
 app.use(express.json());
 
@@ -58,5 +57,5 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
