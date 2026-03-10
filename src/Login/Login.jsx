@@ -4,6 +4,7 @@ import sleepingCat from "../assets/Gif/cat-sleep.gif";
 import "boxicons/css/boxicons.min.css";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/Images/logo-modified.png";
+import { registerUser } from "../api/loginPage";
 
 const Login = () => {
   const nav = useNavigate();
@@ -26,6 +27,12 @@ const Login = () => {
     };
   }, []);
 
+  const [signUpUsername, setSignUpUsername] = React.useState("");
+  const [signUpEmail, setSignUpEmail] = React.useState("");
+  const [signUpPassword, setSignUpPassword] = React.useState("");
+  const [loginEmail, setLoginEmail] = React.useState("");
+  const [loginPassword, setLoginPassword] = React.useState("");
+
   return (
     <div className="login-page">
       <div className="login-brand">
@@ -45,11 +52,44 @@ const Login = () => {
         <img src={sleepingCat} alt="Sleeping Cat" id="sleeping-cat-gif" />
         <div className="container" id="container">
           <div className="form-container sign-up-container">
-            <form action="#">
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                try {
+                  const result = await registerUser({
+                    username: signUpUsername,
+                    email: signUpEmail,
+                    password: signUpPassword,
+                  });
+                  console.log("User created:", result.user);
+                  alert(
+                    ` Registration successfully as ${result.user.username}!`,
+                  );
+                  nav("/main");
+                } catch (err) {
+                  alert(err.message);
+                }
+              }}
+            >
               <h1>Create Account</h1>
-              <input type="text" placeholder="Username" />
-              <input type="email" placeholder="Email" />
-              <input type="password" placeholder="Password" />
+              <input
+                type="text"
+                placeholder="Username"
+                value={signUpUsername}
+                onChange={(e) => setSignUpUsername(e.target.value)}
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={signUpEmail}
+                onChange={(e) => setSignUpEmail(e.target.value)}
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={signUpPassword}
+                onChange={(e) => setSignUpPassword(e.target.value)}
+              />
               <p>Register with other Platforms!</p>
               <div className="social-icons">
                 <a href="#">
@@ -72,10 +112,35 @@ const Login = () => {
           </div>
 
           <div className="form-container sign-in-container">
-            <form action="#">
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                try {
+                  const result = await loginUser({
+                    email: loginEmail,
+                    password: loginPassword,
+                  });
+                  alert(`You have logged in as ${result.user.username}!`);
+
+                  nav("/main");
+                } catch (err) {
+                  alert(err.message);
+                }
+              }}
+            >
               <h1>Sign in</h1>
-              <input type="email" placeholder="Email" />
-              <input type="password" placeholder="Password" />
+              <input
+                type="email"
+                placeholder="Email"
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+              />
               <div className="forgot-link">
                 <a href="#">Forgot your password?</a>
               </div>
