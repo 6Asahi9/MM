@@ -40,7 +40,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-contact">
-        <h8>Contact Us</h8>
+        <h6>Contact Us</h6>
         <div className="social-icons">
           <a href="#" target="_blank" rel="noopener noreferrer">
             <i className="bx bxl-google"></i>
