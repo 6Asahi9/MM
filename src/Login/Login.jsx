@@ -4,7 +4,7 @@ import sleepingCat from "../assets/Gif/cat-sleep.gif";
 import "boxicons/css/boxicons.min.css";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/Images/logo-modified.png";
-import { registerUser } from "../api/loginPage";
+import { registerUser, loginUser } from "../api/loginPage";
 
 const Login = () => {
   const nav = useNavigate();

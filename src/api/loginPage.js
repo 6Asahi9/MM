@@ -1,9 +1,10 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = "https://mm-backend-render.onrender.com";
 
 export async function registerUser({ username, email, password }) {
   try {
     const response = await fetch(`${API_URL}/api/auth/register`, {
       method: "POST",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
@@ -27,6 +28,7 @@ export async function loginUser({ email, password }) {
   try {
     const response = await fetch(`${API_URL}/api/auth/login`, {
       method: "POST",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },

@@ -13,6 +13,16 @@ const { errorHandler } = require("./middleware/error.middleware");
 
 const app = express();
 
+import cors from "cors";
+
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
+);
+
 app.use(express.json());
 app.get("/healthz", (req, res) => res.send("OK"));
 
