@@ -31,6 +31,6 @@ const { authenticate } = require("../middleware/auth.middleware");
 router.post("/register", register);
 router.post("/login", login);
 router.put("/user", authenticate, updateUser);
-router.get("/user/", authenticate, getUser);
+router.get("/user", authenticate, getUser);
 
 module.exports = router;
