@@ -74,3 +74,107 @@
   margin: 10px 0;
   font-size: 16px;
 }
+
+.edit-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.edit-box {
+  background: #29596d;
+  padding: 28px;
+  color: white;
+  border-radius: 14px;
+  width: 350px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  animation: popup 0.25s ease;
+  text-align: center;
+}
+
+@keyframes popup {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.edit-box h3 {
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.edit-box input {
+  width: 90%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+  margin-top: 10px;
+}
+
+.edit-box input:focus {
+  border-color: #2ecc71;
+  box-shadow: 0 0 4px rgba(46, 204, 113, 0.4);
+}
+
+.edit-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.edit-buttons button:first-child {
+  flex: 1;
+  background: #2ecc71;
+  border: none;
+  color: black;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.edit-buttons button:first-child:hover {
+  background: #27ae60;
+}
+
+.edit-buttons button:last-child {
+  flex: 1;
+  background: #e0e0e0;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.edit-buttons button:last-child:hover {
+  background: #cfcfcf;
+}
+
+.editable-field {
+  transition: all 0.2s ease;
+}
+
+.editable-field:hover {
+  cursor: pointer;
+  color: #377792;
+  text-shadow: 0 0 6px rgba(46, 204, 113, 0.6);
+}
