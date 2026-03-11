@@ -75,7 +75,7 @@ exports.getUser = async (req, res) => {
   try {
     const result = await pool.query(
       "SELECT id, username, email FROM users WHERE id = $1",
-      [req.params.id],
+      [req.user.id],
     );
 
     const user = result.rows[0];
