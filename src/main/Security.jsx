@@ -4,6 +4,7 @@ import logo from "../assets/Images/logo-modified.png";
 import { useNavigate } from "react-router-dom";
 import "./Security.css";
 import Footer from "../Home/Footer";
+import { deleteAccount, changePassword } from "../api/userService";
 
 export default function Account() {
   const [tab, setTab] = useState("security");
@@ -124,6 +125,7 @@ export default function Account() {
                 <button
                   className="action-btn"
                   onClick={() => {
+                    localStorage.removeItem("token");
                     alert("Logged out!");
                   }}
                 >

@@ -54,3 +54,58 @@ export async function updateUser(field, value) {
     throw error;
   }
 }
+
+export async function changePassword(currentPassword, newPassword) {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(`${API_URL}/api/auth/change-password`, {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        currentPassword,
+        newPassword,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Password change failed");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Change password error:", error.message);
+    throw error;
+  }
+}
+
+export async function deleteAccount() {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(`${API_URL}/api/auth/delete-account`, {
+      method: "DELETE",
+      mode: "cors",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Delete account failed");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Delete account error:", error.message);
+    throw error;
+  }
+}

@@ -22,16 +22,15 @@ export default function Account() {
   const [editField, setEditField] = useState(null);
   const [newValue, setNewValue] = useState("");
 
-  // Fetch user on page load
+  const isGuest = userInfo.name === "Guest";
+
   useEffect(() => {
     const token = localStorage.getItem("token");
-
     if (!token) return;
 
     const fetchUser = async () => {
       try {
         const data = await getUser();
-
         setUserInfo({
           name: data.user.username || "Guest",
           email: data.user.email || "",
@@ -64,6 +63,17 @@ export default function Account() {
       window.removeEventListener("keydown", handleEsc);
     };
   }, [editField]);
+
+  const getInputType = () => {
+    if (editField === "phone") return "tel";
+    if (editField === "dob") return "date";
+    return "text";
+  };
+
+  const tryEdit = (field) => {
+    if (isGuest) return;
+    setEditField(field);
+  };
 
   const confirmChange = async () => {
     try {
@@ -119,52 +129,73 @@ export default function Account() {
         {tab === "profile" && (
           <div className="profile-tab">
             <p
-              className="editable-field"
-              onClick={() => setEditField("username")}
+              className={`editable-field ${isGuest ? "disabled-field" : ""}`}
+              onClick={() => tryEdit("username")}
             >
               <strong>User Name:</strong> {userInfo.name}
             </p>
 
-            <p>
+            <p className="disabled-field">
               <strong>Email:</strong> {userInfo.email}
             </p>
 
-            <p className="editable-field" onClick={() => setEditField("phone")}>
+            <p
+              className={`editable-field ${isGuest ? "disabled-field" : ""}`}
+              onClick={() => tryEdit("phone")}
+            >
               <strong>Phone:</strong> {userInfo.phone}
             </p>
 
             <p
-              className="editable-field"
-              onClick={() => setEditField("address")}
+              className={`editable-field ${isGuest ? "disabled-field" : ""}`}
+              onClick={() => tryEdit("address")}
             >
               <strong>Address:</strong> {userInfo.address}
             </p>
 
-            <p className="editable-field" onClick={() => setEditField("dob")}>
+            <p
+              className={`editable-field ${isGuest ? "disabled-field" : ""}`}
+              onClick={() => tryEdit("dob")}
+            >
               <strong>DOB:</strong> {userInfo.dob}
             </p>
 
-            <p className="editable-field" onClick={() => setEditField("bank")}>
+            <p
+              className={`editable-field ${isGuest ? "disabled-field" : ""}`}
+              onClick={() => tryEdit("bank")}
+            >
               <strong>Bank:</strong> {userInfo.bank}
             </p>
 
-            <p className="editable-field" onClick={() => setEditField("upi")}>
+            <p
+              className={`editable-field ${isGuest ? "disabled-field" : ""}`}
+              onClick={() => tryEdit("upi")}
+            >
               <strong>UPI number:</strong> {userInfo.upi}
             </p>
           </div>
         )}
       </div>
 
-      {editField && (
+      {editField && !isGuest && (
         <div className="edit-modal">
           <div className="edit-box">
             <h3>Change {editField}</h3>
 
             <input
-              type="text"
+              type={getInputType()}
               placeholder="Enter new value"
               value={newValue}
-              onChange={(e) => setNewValue(e.target.value)}
+              onChange={(e) => {
+                if (editField === "phone") {
+                  const onlyNums = e.target.value
+                    .replace(/\D/g, "")
+                    .slice(0, 10);
+                  setNewValue(onlyNums);
+                } else {
+                  setNewValue(e.target.value);
+                }
+              }}
             />
 
             <div className="edit-buttons">

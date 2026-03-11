@@ -32,5 +32,7 @@ router.post("/register", register);
 router.post("/login", login);
 router.put("/user", authenticate, updateUser);
 router.get("/user", authenticate, getUser);
+router.put("/change-password", authenticate, changePassword);
+router.delete("/delete-account", authenticate, deleteAccount);
 
 module.exports = router;

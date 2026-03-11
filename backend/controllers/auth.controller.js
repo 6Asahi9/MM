@@ -131,3 +131,59 @@ exports.updateUser = async (req, res) => {
     return res.status(500).json({ error: `Failed to update ${field}` });
   }
 };
+
+exports.changePassword = async (req, res) => {
+  const userId = req.user.id;
+  const { currentPassword, newPassword } = req.body;
+
+  try {
+    const result = await pool.query(
+      "SELECT password_hash FROM users WHERE id = $1",
+      [userId],
+    );
+
+    const user = result.rows[0];
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const valid = await bcrypt.compare(currentPassword, user.password_hash);
+
+    if (!valid) {
+      return res.status(401).json({ error: "Current password incorrect" });
+    }
+
+    const newHash = await bcrypt.hash(newPassword, 10);
+
+    await pool.query("UPDATE users SET password_hash = $1 WHERE id = $2", [
+      newHash,
+      userId,
+    ]);
+
+    res.json({ message: "Password updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Password update failed" });
+  }
+};
+
+exports.deleteAccount = async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const result = await pool.query(
+      "DELETE FROM users WHERE id = $1 RETURNING id",
+      [userId],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json({ message: "Account deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Account deletion failed" });
+  }
+};
