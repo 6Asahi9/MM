@@ -74,44 +74,60 @@ exports.login = async (req, res) => {
 exports.getUser = async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT id, username, email FROM users WHERE id = $1",
+      `SELECT id, username, email, phone, bank, upi, dob, address 
+       FROM users 
+       WHERE id = $1`,
       [req.user.id],
     );
 
     const user = result.rows[0];
-
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
+    if (!user) return res.status(404).json({ error: "User not found" });
 
     res.json({ user });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Failed to fetch user" });
   }
 };
 
 exports.updateUser = async (req, res) => {
   const userId = req.user.id;
-  const { username, email } = req.body;
+  const allowedFields = [
+    "username",
+    "email",
+    "phone",
+    "bank",
+    "upi",
+    "dob",
+    "address",
+  ];
+  const fieldsToUpdate = allowedFields.filter(
+    (field) => req.body[field] !== undefined,
+  );
+
+  if (fieldsToUpdate.length === 0)
+    return res
+      .status(400)
+      .json({ error: "No valid fields provided to update" });
+  if (fieldsToUpdate.length > 1)
+    return res
+      .status(400)
+      .json({ error: "Please update only one field at a time" });
+
+  const field = fieldsToUpdate[0];
+  const value = req.body[field];
 
   try {
     const result = await pool.query(
       `UPDATE users
-       SET username = $1, email = $2
-       WHERE id = $3
-       RETURNING id, username, email`,
-      [username, email, userId],
+       SET ${field} = $1
+       WHERE id = $2
+       RETURNING ${field}`,
+      [value, userId],
     );
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    res.json({
-      message: "User updated",
-      user: result.rows[0],
-    });
+    return res.json({ message: `${field} updated`, user: result.rows[0] });
   } catch (err) {
-    res.status(500).json({ error: "Update failed" });
+    console.error(err);
+    return res.status(500).json({ error: `Failed to update ${field}` });
   }
 };
