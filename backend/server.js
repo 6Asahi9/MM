@@ -19,19 +19,27 @@ const app = express();
 
 app.use(helmet());
 
-const allowedOrigins = [process.env.FRONTEND_URL];
+const allowedOrigins = [
+  process.env.FRONTEND_URL?.trim(),
+  "http://localhost:5173",
+];
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
       }
+
+      return callback(new Error("Not allowed by CORS"));
     },
+    credentials: true,
   }),
 );
+
+app.options("*", cors());
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
