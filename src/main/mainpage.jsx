@@ -16,7 +16,7 @@ const MainPage = () => {
 
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 16;
+  const productsPerPage = 8;
 
   useEffect(() => {
     async function fetchProducts() {
@@ -58,7 +58,7 @@ const MainPage = () => {
         </div>
 
         {isSaleActive && <SaleBanner />}
-        {currentPage === 1 && <CategoriesBar />}
+        {<CategoriesBar />}
       </div>
 
       <ProductGrid

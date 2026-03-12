@@ -98,6 +98,7 @@ exports.findUser = async (req, res) => {
     );
     const user = result.rows[0];
     if (!user) return res.status(404).json({ error: "User not found" });
+    res.json({ user });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "failed to fetch user" });

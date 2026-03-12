@@ -31,6 +31,9 @@ const BuyPage = () => {
 
     fetchProduct();
   }, [id]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
 
   useEffect(() => {
     async function fetchProducts() {

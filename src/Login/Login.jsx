@@ -65,7 +65,7 @@ const Login = () => {
                   alert(
                     ` Registration successfully as ${result.user.username}!`,
                   );
-                  nav("/main");
+                  nav("/login");
                 } catch (err) {
                   alert(err.message);
                 }
