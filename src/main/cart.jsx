@@ -66,7 +66,7 @@ export default function Cart() {
           </button>
           <button
             className={tab === "security" ? "active-tab" : ""}
-            onClick={() => nav("/account")}
+            onClick={() => nav("/security")}
           >
             Security
           </button>

@@ -128,3 +128,31 @@
   right: 20px;
   display: flex;
 }
+
+.thumbnail-container {
+  position: relative;
+  display: inline-block;
+}
+
+.remove-thumb {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 16px;
+  color: red;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  padding: 2px 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.thumbnail-container:hover .remove-thumb {
+  opacity: 1;
+}
+
+.thumbnail-container:hover img {
+  transform: scale(1.05);
+  transition: transform 0.2s;
+}

@@ -2,35 +2,58 @@ import React, { useState } from "react";
 import "./publish.css";
 import logo from "../assets/Images/logo-modified.png";
 import { useNavigate } from "react-router-dom";
-import { FaUserCircle, FaShoppingCart, FaUpload } from "react-icons/fa";
+import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
+import Footer from "../Home/Footer";
 
 export default function Publish() {
   const [productName, setProductName] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState("");
   const [price, setPrice] = useState("");
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imageLinks, setImageLinks] = useState([]);
+  const [currentLink, setCurrentLink] = useState("");
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   const nav = useNavigate();
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setImagePreview(reader.result);
-      reader.readAsDataURL(file);
-    }
+  const addImageLink = () => {
+    if (!currentLink.trim()) return;
+    setImageLinks([...imageLinks, currentLink.trim()]);
+    setCurrentLink("");
+    setCurrentImageIndex(imageLinks.length);
+  };
+
+  const removeImage = (index) => {
+    const updated = [...imageLinks];
+    updated.splice(index, 1);
+    setImageLinks(updated);
+    setCurrentImageIndex(0);
+  };
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) =>
+      prev === imageLinks.length - 1 ? 0 : prev + 1,
+    );
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? imageLinks.length - 1 : prev - 1,
+    );
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const productData = { productName, description, tags, price, imagePreview };
+    const productData = { productName, description, tags, price, imageLinks };
     console.log("Publishing Product:", productData);
     alert("Product published successfully!");
     setProductName("");
     setDescription("");
     setTags("");
     setPrice("");
-    setImagePreview(null);
+    setImageLinks([]);
+    setCurrentLink("");
+    setCurrentImageIndex(0);
   };
 
   return (
@@ -61,28 +84,79 @@ export default function Publish() {
         <h1>Publish Product</h1>
         <form onSubmit={handleSubmit} className="publish-form">
           <div className="form-group">
-            <label>Product Image</label>
-
-            <input
-              type="file"
-              accept="image/*"
-              id="image-upload"
-              onChange={handleImageChange}
-              style={{ display: "none" }}
-            />
-
-            <label htmlFor="image-upload" className="upload-box">
-              {imagePreview ? (
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="image-preview"
-                />
+            <label>Product Images</label>
+            <div className="upload-box">
+              {imageLinks.length === 0 ? (
+                <span>Click below to add image URL</span>
               ) : (
-                <span>Click to upload image</span>
+                <div className="big-image-preview">
+                  <div className="main-image-wrapper">
+                    <button
+                      className="arrow left"
+                      type="button"
+                      onClick={prevImage}
+                    >
+                      ❮
+                    </button>
+
+                    <img
+                      src={imageLinks[currentImageIndex]}
+                      alt={`Preview ${currentImageIndex}`}
+                      className="main-image"
+                    />
+
+                    <button
+                      type="button"
+                      className="remove-btn"
+                      onClick={() => removeImage(currentImageIndex)}
+                    >
+                      &times;
+                    </button>
+
+                    <button
+                      className="arrow right"
+                      type="button"
+                      onClick={nextImage}
+                    >
+                      ❯
+                    </button>
+                  </div>
+
+                  <div className="thumbnail-row">
+                    {imageLinks.map((link, index) => (
+                      <div key={index} className="thumbnail-container">
+                        <img
+                          src={link}
+                          alt={`Thumbnail ${index}`}
+                          className={`thumbnail ${index === currentImageIndex ? "active-thumb" : ""}`}
+                          onClick={() => setCurrentImageIndex(index)}
+                        />
+                        <span
+                          className="remove-thumb"
+                          onClick={() => removeImage(index)}
+                        >
+                          ✖
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
-            </label>
+            </div>
+
+            <div className="image-link-input" style={{ marginTop: "10px" }}>
+              <input
+                type="url"
+                placeholder="Enter image URL"
+                value={currentLink}
+                onChange={(e) => setCurrentLink(e.target.value)}
+              />
+              <button type="button" onClick={addImageLink}>
+                Add
+              </button>
+            </div>
           </div>
+
           <div className="form-group">
             <label>Product Name</label>
             <input
@@ -140,7 +214,9 @@ export default function Publish() {
                 setDescription("");
                 setTags("");
                 setPrice("");
-                setImagePreview(null);
+                setImageLinks([]);
+                setCurrentLink("");
+                setCurrentImageIndex(0);
               }}
             >
               Reset
@@ -148,6 +224,7 @@ export default function Publish() {
           </div>
         </form>
       </div>
+      <Footer />
     </div>
   );
 }
