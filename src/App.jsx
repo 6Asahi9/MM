@@ -36,7 +36,7 @@ export default function App() {
       />
       <Route path="/login" element={<Login />} />
       <Route path="/main" element={<Main />} />
-      <Route path="/buypage" element={<BuyPage />} />
+      <Route path="/buypage/:id" element={<BuyPage />} />
       <Route path="/account" element={<Account />} />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/cart" element={<Cart />} />

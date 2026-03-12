@@ -90,6 +90,20 @@ exports.getUser = async (req, res) => {
   }
 };
 
+exports.findUser = async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT id , username FROM users WHERE id = $1`,
+      [req.params.id],
+    );
+    const user = result.rows[0];
+    if (!user) return res.status(404).json({ error: "User not found" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "failed to fetch user" });
+  }
+};
+
 exports.updateUser = async (req, res) => {
   const userId = req.user.id;
   const allowedFields = [

@@ -26,12 +26,14 @@ const {
   updateUser,
   changePassword,
   deleteAccount,
+  findUser,
 } = require("../controllers/auth.controller");
 
 const { authenticate } = require("../middleware/auth.middleware");
 
 router.post("/register", register);
 router.post("/login", login);
+router.get("/user/:id", findUser);
 router.put("/user", authenticate, updateUser);
 router.get("/user", authenticate, getUser);
 router.put("/change-password", authenticate, changePassword);

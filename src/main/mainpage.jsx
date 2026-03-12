@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SaleBanner from "./mainpage/SaleBanner";
 import CategoriesBar from "./mainpage/CategoriesBar";
@@ -8,21 +8,28 @@ import "./mainpage.css";
 import logo from "../assets/Images/logo-modified.png";
 import Footer from "../Home/Footer";
 import { FaUserCircle, FaShoppingCart, FaUpload } from "react-icons/fa";
+import { getProducts } from "../api/productApi";
 
 const MainPage = () => {
   const navigate = useNavigate();
-
   const isSaleActive = true;
 
+  const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 16;
 
-  const products = Array.from({ length: 480 }, (_, index) => ({
-    id: index + 1,
-    title: `Product ${index + 1}`,
-    price: (index + 1) * 100,
-    image: "https://picsum.photos/id/1015/800/800",
-  }));
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const data = await getProducts();
+        setProducts(data);
+      } catch (err) {
+        console.error("Failed to load products:", err.message);
+      }
+    }
+
+    fetchProducts();
+  }, []);
 
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
@@ -54,7 +61,14 @@ const MainPage = () => {
         {currentPage === 1 && <CategoriesBar />}
       </div>
 
-      <ProductGrid products={visibleProducts} />
+      <ProductGrid
+        products={visibleProducts.map((p) => ({
+          id: p._id,
+          title: p.title,
+          price: p.price,
+          image: p.images[0],
+        }))}
+      />
 
       <Pagination
         totalProducts={products.length}

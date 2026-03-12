@@ -54,10 +54,12 @@
 }
 
 .search-bar {
-  width: 40%;
+  flex: 1;
+  max-width: 500px;
+  margin: 0 20px;
   padding: 12px 15px;
   border-radius: 15px;
-  border: 1.5.5px solid #000000;
+  border: 1.5px solid #000000;
 }
 
 .buy-top {
@@ -229,4 +231,13 @@
 .active-thumb {
   opacity: 1;
   border: 2px solid #000;
+}
+
+#recommend-name {
+  margin-top: 70px;
+  color: white;
+}
+
+#explore-name {
+  color: white;
 }

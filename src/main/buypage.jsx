@@ -1,56 +1,72 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import ProductGrid from "./mainpage/ProductGrid";
 import Pagination from "./mainpage/Pagination";
 import Footer from "../Home/Footer";
 import "./buypage.css";
 import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 import logo from "../assets/Images/logo-modified.png";
+import { getProductById, getProducts } from "../api/productApi";
 
 const BuyPage = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  const product = {
-    id: 1,
-    title: "Titanic (Real One)",
-    price: 2999,
-    rating: 4.3,
-    description: "The most legendary ocean liner ever built.",
-    images: [
-      "https://picsum.photos/id/1015/800/800",
-      "https://picsum.photos/id/1016/800/800",
-      "https://picsum.photos/id/1018/800/800",
-      "https://picsum.photos/id/1020/800/800",
-    ],
-    comments: [
-      { id: 1, user: "Ravi", text: "Amazing quality!" },
-      { id: 2, user: "Ananya", text: "Worth the price." },
-    ],
-  };
-
-  const allProducts = Array.from({ length: 480 }, (_, index) => ({
-    id: index + 1,
-    title: `Product ${index + 1}`,
-    price: (index + 1) * 100,
-    image: "https://via.placeholder.com/150",
-  }));
-
-  const products = allProducts.filter((p) => p.id !== product.id);
-
-  const recommendedProducts = products.slice(0, 4);
+  const [product, setProduct] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const [explorePage, setExplorePage] = useState(1);
   const explorePerPage = 16;
 
-  const exploreStartIndex = (explorePage - 1) * explorePerPage;
-  const exploreEndIndex = exploreStartIndex + explorePerPage;
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        const data = await getProductById(id);
+        setProduct(data);
+      } catch (err) {
+        console.error("Failed to fetch product:", err.message);
+      }
+    }
 
-  const exploreMoreProducts = products.slice(
-    exploreStartIndex,
-    exploreEndIndex,
-  );
+    fetchProduct();
+  }, [id]);
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const data = await getProducts();
+        setProducts(data);
+      } catch (err) {
+        console.error("Failed to fetch products:", err.message);
+      }
+    }
+
+    fetchProducts();
+  }, []);
+
+  if (!product) return <div>Loading...</div>;
+
+  const otherProducts = products.filter((p) => p._id !== product._id);
+
+  const recommendedProducts = otherProducts.slice(0, 4).map((p) => ({
+    id: p._id,
+    title: p.title,
+    price: p.price,
+    image: p.images[0],
+  }));
+
+  const startIndex = (explorePage - 1) * explorePerPage;
+  const endIndex = startIndex + explorePerPage;
+
+  const exploreMoreProducts = otherProducts
+    .slice(startIndex, endIndex)
+    .map((p) => ({
+      id: p._id,
+      title: p.title,
+      price: p.price,
+      image: p.images[0],
+    }));
 
   const nextImage = () => {
     setCurrentImageIndex((prev) =>
@@ -63,6 +79,7 @@ const BuyPage = () => {
       prev === 0 ? product.images.length - 1 : prev - 1,
     );
   };
+
   return (
     <div className="Buy-whole">
       <div className="checkout-header">
@@ -89,6 +106,7 @@ const BuyPage = () => {
           </button>
         </div>
       </div>
+
       <div className="buy-container">
         <div className="buy-top">
           <div className="image-section">
@@ -99,7 +117,7 @@ const BuyPage = () => {
 
               <img
                 src={product.images[currentImageIndex]}
-                alt="Main Product"
+                alt={product.title}
                 className="main-image"
               />
 
@@ -125,7 +143,6 @@ const BuyPage = () => {
 
           <div className="info-section">
             <h1>{product.title}</h1>
-            <div className="rating">⭐ {product.rating} / 5</div>
             <div className="price">₹{product.price}</div>
             <p className="description">{product.description}</p>
 
@@ -133,23 +150,18 @@ const BuyPage = () => {
               <button
                 className="add-cart"
                 onClick={() => {
-                  if (localStorage.getItem("token")) {
-                    navigate("/cart");
-                  } else {
-                    alert("You must be logged in to use cart");
-                  }
+                  if (localStorage.getItem("token")) navigate("/cart");
+                  else alert("You must be logged in to use cart");
                 }}
               >
                 Add to Cart
               </button>
+
               <button
                 className="buy-now"
                 onClick={() => {
-                  if (localStorage.getItem("token")) {
-                    navigate("/checkout");
-                  } else {
-                    alert("You must be Logged in to buy a product");
-                  }
+                  if (localStorage.getItem("token")) navigate("/checkout");
+                  else alert("You must be Logged in to buy a product");
                 }}
               >
                 Buy Now
@@ -159,27 +171,17 @@ const BuyPage = () => {
         </div>
 
         <div className="recommendation-section">
-          <h2>Recommended For You</h2>
+          <h2 id="recommend-name">Recommended For You</h2>
           <ProductGrid products={recommendedProducts} />
         </div>
 
-        <div className="comments-section">
-          <h2>Customer Reviews</h2>
-          {product.comments.map((comment) => (
-            <div key={comment.id} className="comment-card">
-              <strong>{comment.user}</strong>
-              <p>{comment.text}</p>
-            </div>
-          ))}
-        </div>
-
         <div className="explore-more-section">
-          <h2>Explore More</h2>
+          <h2 id="explore-name">Explore More</h2>
 
           <ProductGrid products={exploreMoreProducts} />
 
           <Pagination
-            totalProducts={products.length}
+            totalProducts={otherProducts.length}
             productsPerPage={explorePerPage}
             currentPage={explorePage}
             setCurrentPage={setExplorePage}
