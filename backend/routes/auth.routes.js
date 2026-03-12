@@ -24,6 +24,8 @@ const {
   login,
   getUser,
   updateUser,
+  changePassword,
+  deleteAccount,
 } = require("../controllers/auth.controller");
 
 const { authenticate } = require("../middleware/auth.middleware");
