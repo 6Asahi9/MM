@@ -202,7 +202,16 @@ export default function Publish() {
           </div>
 
           <div className="form-actions">
-            <button type="submit" className="publish-btn">
+            <button
+              type="submit"
+              className="publish-btn"
+              onClick={() => {
+                if (localStorage.getItem("token")) {
+                } else {
+                  alert("You must be logged in to publish a product");
+                }
+              }}
+            >
               Publish
             </button>
             <button

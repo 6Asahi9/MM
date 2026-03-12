@@ -130,10 +130,28 @@ const BuyPage = () => {
             <p className="description">{product.description}</p>
 
             <div className="buttons">
-              <button className="add-cart" onClick={() => navigate("/cart")}>
+              <button
+                className="add-cart"
+                onClick={() => {
+                  if (localStorage.getItem("token")) {
+                    navigate("/cart");
+                  } else {
+                    alert("You must be logged in to use cart");
+                  }
+                }}
+              >
                 Add to Cart
               </button>
-              <button className="buy-now" onClick={() => navigate("/checkout")}>
+              <button
+                className="buy-now"
+                onClick={() => {
+                  if (localStorage.getItem("token")) {
+                    navigate("/checkout");
+                  } else {
+                    alert("You must be Logged in to buy a product");
+                  }
+                }}
+              >
                 Buy Now
               </button>
             </div>
