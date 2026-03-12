@@ -6,7 +6,10 @@ const productSchema = new mongoose.Schema({
   price: Number,
   images: [String],
   tags: [String],
-  created_by: String,
+  created_by: {
+    type: Number,
+    required: true,
+  },
   ratings: [Number],
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now },

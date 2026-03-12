@@ -11,12 +11,14 @@ const {
   addRating,
 } = require("../controllers/product.controller");
 
+const { authenticate } = require("../middleware/auth.middleware");
+
 router.get("/", getProducts);
 router.get("/:id", getProductById);
-router.post("/", createProduct);
+router.post("/", authenticate, createProduct);
 router.get("/search", searchProducts);
-router.put("/:id", updateProduct);
-router.delete("/:id", deleteProduct);
-router.post("/:id/rating", addRating);
+router.put("/:id", authenticate, updateProduct);
+router.delete("/:id", authenticate, deleteProduct);
+router.post("/:id/rating", authenticate, addRating);
 
 module.exports = router;

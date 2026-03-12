@@ -4,6 +4,7 @@ import logo from "../assets/Images/logo-modified.png";
 import { useNavigate } from "react-router-dom";
 import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 import Footer from "../Home/Footer";
+import { publishProduct } from "../api/productApi";
 
 export default function Publish() {
   const [productName, setProductName] = useState("");
@@ -42,18 +43,45 @@ export default function Publish() {
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const productData = { productName, description, tags, price, imageLinks };
-    console.log("Publishing Product:", productData);
-    alert("Product published successfully!");
-    setProductName("");
-    setDescription("");
-    setTags("");
-    setPrice("");
-    setImageLinks([]);
-    setCurrentLink("");
-    setCurrentImageIndex(0);
+
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!token) {
+      alert("You must be logged in to publish a product");
+      return;
+    }
+
+    const productData = {
+      title: productName,
+      description,
+      tags: tags
+        .split(",")
+        .map((tag) => tag.trim())
+        .filter((t) => t !== ""),
+      price: parseFloat(price),
+      images: imageLinks,
+    };
+
+    try {
+      const savedProduct = await publishProduct(productData);
+      console.log("Published product:", savedProduct);
+      alert("Product published successfully!");
+
+      setProductName("");
+      setDescription("");
+      setTags("");
+      setPrice("");
+      setImageLinks([]);
+      setCurrentLink("");
+      setCurrentImageIndex(0);
+
+      nav("/main");
+    } catch (err) {
+      alert("Error publishing product: " + err.message);
+    }
   };
 
   return (

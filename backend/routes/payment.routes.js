@@ -6,8 +6,10 @@ const {
   orderPayments,
 } = require("../controllers/payment.controller");
 
-router.post("/", newPayment);
-router.get("/:id", getPayment);
-router.get("/order/:orderId", orderPayments);
+const { authenticate } = require("../middleware/auth.middleware");
+
+router.post("/", authenticate, newPayment);
+router.get("/:id", authenticate, getPayment);
+router.get("/order/:orderId", authenticate, orderPayments);
 
 module.exports = router;

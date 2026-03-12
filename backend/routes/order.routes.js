@@ -7,9 +7,11 @@ const {
   userOrders,
 } = require("../controllers/order.controller");
 
-router.post("/", newOrder);
-router.post("/item", addItem);
-router.get("/:id", getOrder);
-router.get("/user/:userId", userOrders);
+const { authenticate } = require("../middleware/auth.middleware");
+
+router.post("/", authenticate, newOrder);
+router.post("/item", authenticate, addItem);
+router.get("/:id", authenticate, getOrder);
+router.get("/user/:userId", authenticate, userOrders);
 
 module.exports = router;
