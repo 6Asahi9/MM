@@ -56,24 +56,18 @@ async function userOrders(req, res) {
 async function addToCart(req, res) {
   try {
     const userId = req.user.id;
-    const { productId, quantity = 1 } = req.body;
+    const { productId } = req.body;
 
-    const product = await Product.findById(productId);
-    if (!product) return res.status(404).json({ message: "Product not found" });
-
-    const totalAmount = product.price * quantity;
+    if (!productId)
+      return res.status(400).json({ error: "Product ID required" });
 
     const insertQuery = `
-    INSERT INTO orders (user_id, product_id, total_amount, quantity)
-    VALUES ($1, $2, $3, $4)
-    RETURNING *;
+      INSERT INTO orders (user_id, product_id, total_amount, quantity)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *;
     `;
-    const result = await pool.query(insertQuery, [
-      userId,
-      productId,
-      totalAmount,
-      quantity,
-    ]);
+
+    const result = await pool.query(insertQuery, [userId, productId, 0, 1]);
 
     res.status(201).json({ order: result.rows[0] });
   } catch (err) {
@@ -81,5 +75,4 @@ async function addToCart(req, res) {
     res.status(500).json({ error: "Failed to add to cart" });
   }
 }
-
 module.exports = { newOrder, getOrder, addItem, userOrders, addToCart };

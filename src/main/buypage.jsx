@@ -7,7 +7,7 @@ import "./buypage.css";
 import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 import logo from "../assets/Images/logo-modified.png";
 import { getProductById, getProducts } from "../api/productApi";
-import { createOrder } from "../api/orderApi";
+import { addToCart } from "../api/orderApi";
 
 const BuyPage = () => {
   const navigate = useNavigate();
@@ -160,31 +160,10 @@ const BuyPage = () => {
                   }
 
                   try {
-                    const response = await fetch(
-                      "https://mm-backend-render.onrender.com/api/orders/add-to-cart",
-                      {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                          Authorization: `Bearer ${localStorage.getItem("token")}`,
-                        },
-                        body: JSON.stringify({
-                          productId: product._id,
-                          quantity: 1,
-                        }),
-                      },
-                    );
-
-                    const data = await response.json();
-
-                    if (response.ok) {
-                      navigate("/cart");
-                    } else {
-                      alert(data.error || "Failed to add to cart");
-                    }
+                    await addToCart(product._id);
+                    navigate("/cart");
                   } catch (err) {
-                    console.error(err);
-                    alert("Something went wrong");
+                    alert(err.message || "Failed to add to cart");
                   }
                 }}
               >
