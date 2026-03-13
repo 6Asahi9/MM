@@ -55,6 +55,9 @@ async function userOrders(req, res) {
 
 async function addToCart(req, res) {
   try {
+    console.log("User ID:", req.user.id);
+    console.log("Body:", req.body);
+
     const userId = req.user.id;
     const { productId } = req.body;
 
@@ -75,4 +78,5 @@ async function addToCart(req, res) {
     res.status(500).json({ error: "Failed to add to cart" });
   }
 }
+
 module.exports = { newOrder, getOrder, addItem, userOrders, addToCart };
