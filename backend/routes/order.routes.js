@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+
 const {
   newOrder,
   getOrder,
@@ -17,11 +18,13 @@ const { authenticate } = require("../middleware/auth.middleware");
 router.post("/", authenticate, newOrder);
 router.post("/item", authenticate, addItem);
 router.get("/:id", authenticate, getOrder);
-// router.get("/user/:userId", authenticate, userOrders);
+
 router.post("/add-to-cart", authenticate, addToCart);
-router.get("/products", authenticate, getUserProducts);
+
 router.get("/products", authenticate, getUserOrdersWithProducts);
+
 router.put("/status", authenticate, setOrderStatus);
-router.put("/status", authenticate, getOrderStatus);
+
+router.get("/status", authenticate, getOrderStatus);
 
 module.exports = router;

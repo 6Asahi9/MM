@@ -1,9 +1,10 @@
 import { getProductById } from "./productApi";
 
 const API_URL = "https://mm-backend-render.onrender.com";
-const token = localStorage.getItem("token");
 
 async function authFetch(url, options = {}) {
+  const token = localStorage.getItem("token");
+
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
@@ -24,11 +25,12 @@ export async function getOrdersWithProducts() {
   const data = await authFetch(`${API_URL}/api/orders/products`);
 
   const enrichedOrders = await Promise.all(
-    data.productIds.map(async (id) => {
-      const product = await getProductById(id);
+    data.orders.map(async (order) => {
+      const product = await getProductById(order.product_id);
+
       return {
         product,
-        status: "pending",
+        status: order.status,
       };
     }),
   );

@@ -1,15 +1,19 @@
 const pool = require("../config/db");
-const Product = require("../models/product.model");
+
 const {
   createOrder,
   getOrderById,
   addOrderItem,
   getOrdersByUser,
+  getProductIdsByUser,
+  updateOrderStatus,
+  getUserOrderStatus,
 } = require("../models/order.model");
 
 async function newOrder(req, res) {
   try {
     const { userId, totalAmount, productId, quantity, price } = req.body;
+
     const order = await createOrder(
       userId,
       totalAmount,
@@ -17,6 +21,7 @@ async function newOrder(req, res) {
       quantity,
       price,
     );
+
     res.status(201).json({ order });
   } catch (err) {
     console.error(err);
@@ -26,8 +31,10 @@ async function newOrder(req, res) {
 
 async function getOrder(req, res) {
   try {
-    const order = await getOrderById(req.user.id);
+    const order = await getOrderById(req.params.id);
+
     if (!order) return res.status(404).json({ error: "Order not found" });
+
     res.json({ order });
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch order" });
@@ -37,7 +44,9 @@ async function getOrder(req, res) {
 async function addItem(req, res) {
   try {
     const { orderId, productId, quantity, price } = req.body;
+
     const item = await addOrderItem(orderId, productId, quantity, price);
+
     res.status(201).json({ item });
   } catch (err) {
     res.status(500).json({ error: "Failed to add item" });
@@ -89,10 +98,8 @@ async function setOrderStatus(req, res) {
     const userId = req.user.id;
     const { productId, status } = req.body;
 
-    if (!productId || !status)
-      return res.status(400).json({ error: "Product ID and status required" });
-
     const updatedOrder = await updateOrderStatus(userId, productId, status);
+
     if (!updatedOrder)
       return res.status(404).json({ error: "Order not found" });
 
@@ -118,7 +125,7 @@ async function getUserOrdersWithProducts(req, res) {
   try {
     const userId = req.user.id;
     const orders = await getOrdersByUser(userId);
-    res.json(orders);
+    res.json({ orders });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch orders" });

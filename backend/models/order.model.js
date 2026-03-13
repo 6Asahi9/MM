@@ -12,9 +12,11 @@ async function createOrder(
     await client.query("BEGIN");
 
     const result = await client.query(
-      `INSERT INTO orders (user_id, total_amount) VALUES ($1, $2) RETURNING *`,
-      [userId, totalAmount],
+      `INSERT INTO orders (user_id, total_amount, product_id) 
+       VALUES ($1, $2, $3) RETURNING *`,
+      [userId, totalAmount, productId],
     );
+
     const order = result.rows[0];
 
     if (productId) {
@@ -58,12 +60,9 @@ async function addOrderItem(orderId, productId, quantity, price) {
 
 async function getOrdersByUser(userId) {
   const result = await pool.query(
-    `SELECT o.*, json_agg(oi.*) AS items
-     FROM orders o
-     LEFT JOIN order_items oi ON o.id = oi.order_id
-     WHERE o.user_id = $1
-     GROUP BY o.id
-     ORDER BY o.created_at DESC`,
+    `SELECT * FROM orders 
+     WHERE user_id = $1
+     ORDER BY created_at DESC`,
     [userId],
   );
   return result.rows;
@@ -71,7 +70,7 @@ async function getOrdersByUser(userId) {
 
 async function getUserOrderStatus(userId) {
   const result = await pool.query(
-    `SELECT id AS product_id, status 
+    `SELECT product_id, status 
      FROM orders 
      WHERE user_id = $1`,
     [userId],
