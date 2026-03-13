@@ -26,7 +26,7 @@ async function newOrder(req, res) {
 
 async function getOrder(req, res) {
   try {
-    const order = await getOrderById(req.params.id);
+    const order = await getOrderById(req.user.id);
     if (!order) return res.status(404).json({ error: "Order not found" });
     res.json({ order });
   } catch (err) {
@@ -72,4 +72,55 @@ async function addToCart(req, res) {
     res.status(500).json({ error: "Failed to add to cart" });
   }
 }
-module.exports = { newOrder, getOrder, addItem, userOrders, addToCart };
+
+async function getUserProducts(req, res) {
+  try {
+    const userId = req.user.id;
+    const productIds = await getProductIdsByUser(userId);
+    res.json({ productIds });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch products" });
+  }
+}
+
+async function setOrderStatus(req, res) {
+  try {
+    const userId = req.user.id;
+    const { productId, status } = req.body;
+
+    if (!productId || !status)
+      return res.status(400).json({ error: "Product ID and status required" });
+
+    const updatedOrder = await updateOrderStatus(userId, productId, status);
+    if (!updatedOrder)
+      return res.status(404).json({ error: "Order not found" });
+
+    res.json({ order: updatedOrder });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update order status" });
+  }
+}
+
+async function getOrderStatus(req, res) {
+  try {
+    const userId = req.user.id;
+    const orders = await getUserOrderStatus(userId);
+    res.json({ orders });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch order status" });
+  }
+}
+
+module.exports = {
+  newOrder,
+  getOrder,
+  addItem,
+  userOrders,
+  addToCart,
+  getOrderStatus,
+  getUserProducts,
+  setOrderStatus,
+};

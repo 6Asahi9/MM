@@ -69,4 +69,41 @@ async function getOrdersByUser(userId) {
   return result.rows;
 }
 
-module.exports = { createOrder, getOrderById, addOrderItem, getOrdersByUser };
+async function getUserOrderStatus(userId) {
+  const result = await pool.query(
+    `SELECT id AS product_id, status 
+     FROM orders 
+     WHERE user_id = $1`,
+    [userId],
+  );
+  return result.rows;
+}
+
+async function getProductIdsByUser(userId) {
+  const result = await pool.query(
+    `SELECT product_id FROM orders WHERE user_id = $1`,
+    [userId],
+  );
+  return result.rows.map((row) => row.product_id);
+}
+
+async function updateOrderStatus(userId, productId, status) {
+  const result = await pool.query(
+    `UPDATE orders 
+     SET status = $1 
+     WHERE user_id = $2 AND product_id = $3
+     RETURNING *`,
+    [status, userId, productId],
+  );
+  return result.rows[0];
+}
+
+module.exports = {
+  createOrder,
+  getOrderById,
+  addOrderItem,
+  getOrdersByUser,
+  getUserOrderStatus,
+  getProductIdsByUser,
+  updateOrderStatus,
+};
