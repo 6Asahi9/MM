@@ -9,6 +9,7 @@ const {
   setOrderStatus,
   addToCart,
   getOrderStatus,
+  getUserOrdersWithProducts,
 } = require("../controllers/order.controller");
 
 const { authenticate } = require("../middleware/auth.middleware");
@@ -19,6 +20,7 @@ router.get("/:id", authenticate, getOrder);
 router.get("/user/:userId", authenticate, userOrders);
 router.post("/add-to-cart", authenticate, addToCart);
 router.get("/products", authenticate, getUserProducts);
+router.get("/products", authenticate, getUserOrdersWithProducts);
 router.put("/status", authenticate, setOrderStatus);
 router.put("/status", authenticate, getOrderStatus);
 

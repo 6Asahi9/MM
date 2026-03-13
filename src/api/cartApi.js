@@ -9,7 +9,6 @@ async function authFetch(url, options = {}) {
     Authorization: `Bearer ${token}`,
     ...options.headers,
   };
-
   const response = await fetch(url, { ...options, headers });
   if (!response.ok) {
     const errorData = await response.json();
@@ -19,16 +18,26 @@ async function authFetch(url, options = {}) {
 }
 
 export async function getOrdersWithProducts() {
-  const { orders } = await authFetch(`${API_URL}/api/orders/status`);
+  const userId = localStorage.getItem("userId");
+  const ordersArray = await authFetch(`${API_URL}/api/orders/user/${userId}`);
 
-  const enrichedOrders = await Promise.all(
-    orders.map(async (o) => {
-      const product = await getProductById(o.product_id);
-      return { ...o, product };
-    }),
-  );
+  const enrichedItems = [];
 
-  return enrichedOrders;
+  for (const order of ordersArray) {
+    if (!order.items) continue;
+    for (const item of order.items) {
+      const product = await getProductById(item.product_id);
+      enrichedItems.push({
+        orderId: order.id,
+        status: order.status,
+        product,
+        quantity: item.quantity,
+        totalAmount: item.price * item.quantity,
+      });
+    }
+  }
+
+  return enrichedItems;
 }
 
 export async function setOrderStatus(productId, status) {

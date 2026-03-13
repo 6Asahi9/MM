@@ -114,6 +114,17 @@ async function getOrderStatus(req, res) {
   }
 }
 
+async function getUserOrdersWithProducts(req, res) {
+  try {
+    const userId = req.user.id;
+    const orders = await getOrdersByUser(userId);
+    res.json(orders);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch orders" });
+  }
+}
+
 module.exports = {
   newOrder,
   getOrder,
@@ -123,4 +134,5 @@ module.exports = {
   getOrderStatus,
   getUserProducts,
   setOrderStatus,
+  getUserOrdersWithProducts,
 };

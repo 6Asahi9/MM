@@ -14,20 +14,21 @@ export default function Cart() {
   useEffect(() => {
     async function fetchOrders() {
       try {
-        const orders = await getOrdersWithProducts();
-
-        // separate by status
+        const ordersWithProducts = await getOrdersWithProducts();
         setPendingProducts(
-          orders.filter((o) => o.status === "pending").map((o) => o.product),
+          ordersWithProducts
+            .filter((o) => o.status === "pending")
+            .map((o) => o.product),
         );
         setCompletedProducts(
-          orders.filter((o) => o.status === "arrived").map((o) => o.product),
+          ordersWithProducts
+            .filter((o) => o.status === "arrived")
+            .map((o) => o.product),
         );
       } catch (err) {
-        console.error("Error fetching cart:", err.message);
+        console.error(err.message);
       }
     }
-
     fetchOrders();
   }, []);
 
@@ -84,9 +85,9 @@ export default function Cart() {
             ) : (
               pendingProducts.map((p) => (
                 <div key={p._id} className="cart-card">
-                  <img src={p.img} alt={p.name} className="thumb" />
+                  <img src={p.images[0]} alt={p.title} className="thumb" />
                   <div className="cart-info">
-                    <p className="cart-name">{p.name}</p>
+                    <p className="cart-name">{p.title}</p>
                     <p className="cart-price">${p.price.toFixed(2)}</p>
                   </div>
                 </div>
@@ -107,9 +108,9 @@ export default function Cart() {
             ) : (
               completedProducts.map((p) => (
                 <div key={p._id} className="cart-card past-card">
-                  <img src={p.img} alt={p.name} className="thumb" />
+                  <img src={p.images[0]} alt={p.title} className="thumb" />
                   <div className="cart-info">
-                    <p className="cart-name">{p.name}</p>
+                    <p className="cart-name">{p.title}</p>
                     <p className="cart-price">${p.price.toFixed(2)}</p>
                   </div>
                 </div>
