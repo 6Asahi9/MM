@@ -17,7 +17,7 @@ const { authenticate } = require("../middleware/auth.middleware");
 router.post("/", authenticate, newOrder);
 router.post("/item", authenticate, addItem);
 router.get("/:id", authenticate, getOrder);
-router.get("/user/:userId", authenticate, userOrders);
+// router.get("/user/:userId", authenticate, userOrders);
 router.post("/add-to-cart", authenticate, addToCart);
 router.get("/products", authenticate, getUserProducts);
 router.get("/products", authenticate, getUserOrdersWithProducts);

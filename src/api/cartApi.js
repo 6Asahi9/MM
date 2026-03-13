@@ -9,35 +9,31 @@ async function authFetch(url, options = {}) {
     Authorization: `Bearer ${token}`,
     ...options.headers,
   };
+
   const response = await fetch(url, { ...options, headers });
+
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.error || "Something went wrong");
+    throw new Error(errorData.error || "Failed to fetch orders");
   }
+
   return response.json();
 }
 
 export async function getOrdersWithProducts() {
-  const userId = localStorage.getItem("userId");
-  const ordersArray = await authFetch(`${API_URL}/api/orders/user/${userId}`);
+  const data = await authFetch(`${API_URL}/api/orders/products`);
 
-  const enrichedItems = [];
-
-  for (const order of ordersArray) {
-    if (!order.items) continue;
-    for (const item of order.items) {
-      const product = await getProductById(item.product_id);
-      enrichedItems.push({
-        orderId: order.id,
-        status: order.status,
+  const enrichedOrders = await Promise.all(
+    data.productIds.map(async (id) => {
+      const product = await getProductById(id);
+      return {
         product,
-        quantity: item.quantity,
-        totalAmount: item.price * item.quantity,
-      });
-    }
-  }
+        status: "pending",
+      };
+    }),
+  );
 
-  return enrichedItems;
+  return enrichedOrders;
 }
 
 export async function setOrderStatus(productId, status) {
