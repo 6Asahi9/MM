@@ -17,14 +17,15 @@ const { authenticate } = require("../middleware/auth.middleware");
 
 router.post("/", authenticate, newOrder);
 router.post("/item", authenticate, addItem);
-router.get("/:id", authenticate, getOrder);
 
 router.post("/add-to-cart", authenticate, addToCart);
 
 router.get("/products", authenticate, getUserOrdersWithProducts);
 
+router.get("/status", authenticate, getOrderStatus);
+
 router.put("/status", authenticate, setOrderStatus);
 
-router.get("/status", authenticate, getOrderStatus);
+router.get("/:id", authenticate, getOrder);
 
 module.exports = router;
