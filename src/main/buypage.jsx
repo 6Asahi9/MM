@@ -7,6 +7,7 @@ import "./buypage.css";
 import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 import logo from "../assets/Images/logo-modified.png";
 import { getProductById, getProducts } from "../api/productApi";
+import { createOrder } from "../api/orderApi";
 
 const BuyPage = () => {
   const navigate = useNavigate();
