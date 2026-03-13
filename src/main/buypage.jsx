@@ -152,9 +152,39 @@ const BuyPage = () => {
             <div className="buttons">
               <button
                 className="add-cart"
-                onClick={() => {
-                  if (localStorage.getItem("token")) navigate("/cart");
-                  else alert("You must be logged in to use cart");
+                onClick={async () => {
+                  if (!localStorage.getItem("token")) {
+                    alert("You must be logged in to use cart");
+                    return;
+                  }
+
+                  try {
+                    const response = await fetch(
+                      "https://mm-backend-render.onrender.com/api/orders/add-to-cart",
+                      {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                          Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        },
+                        body: JSON.stringify({
+                          productId: product._id,
+                          quantity: 1,
+                        }),
+                      },
+                    );
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                      navigate("/cart");
+                    } else {
+                      alert(data.error || "Failed to add to cart");
+                    }
+                  } catch (err) {
+                    console.error(err);
+                    alert("Something went wrong");
+                  }
                 }}
               >
                 Add to Cart

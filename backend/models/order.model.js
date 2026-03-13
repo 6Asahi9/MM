@@ -1,11 +1,38 @@
 const pool = require("../config/db");
 
-async function createOrder(userId, totalAmount = 0) {
-  const result = await pool.query(
-    `INSERT INTO orders (user_id, total_amount) VALUES ($1, $2) RETURNING *`,
-    [userId, totalAmount],
-  );
-  return result.rows[0];
+async function createOrder(
+  userId,
+  totalAmount = 0,
+  productId = null,
+  quantity = 1,
+  price = 0,
+) {
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+
+    const result = await client.query(
+      `INSERT INTO orders (user_id, total_amount) VALUES ($1, $2) RETURNING *`,
+      [userId, totalAmount],
+    );
+    const order = result.rows[0];
+
+    if (productId) {
+      await client.query(
+        `INSERT INTO order_items (order_id, product_id, quantity, price)
+         VALUES ($1, $2, $3, $4)`,
+        [order.id, productId, quantity, price],
+      );
+    }
+
+    await client.query("COMMIT");
+    return order;
+  } catch (err) {
+    await client.query("ROLLBACK");
+    throw err;
+  } finally {
+    client.release();
+  }
 }
 
 async function getOrderById(orderId) {
