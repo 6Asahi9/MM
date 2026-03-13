@@ -84,7 +84,12 @@ export default function Cart() {
               <p>Your cart is empty 🛒</p>
             ) : (
               pendingProducts.map((p) => (
-                <div key={p._id} className="cart-card">
+                <div
+                  key={p._id}
+                  className="cart-card"
+                  onClick={() => nav(`/buypage/${p._id}`)}
+                  style={{ cursor: "pointer" }}
+                >
                   <img src={p.images[0]} alt={p.title} className="thumb" />
                   <div className="cart-info">
                     <p className="cart-name">{p.title}</p>
@@ -107,7 +112,12 @@ export default function Cart() {
               <p>No completed orders yet.</p>
             ) : (
               completedProducts.map((p) => (
-                <div key={p._id} className="cart-card past-card">
+                <div
+                  key={p._id}
+                  className="cart-card past-card"
+                  onClick={() => nav(`/buypage/${p._id}`)}
+                  style={{ cursor: "pointer" }}
+                >
                   <img src={p.images[0]} alt={p.title} className="thumb" />
                   <div className="cart-info">
                     <p className="cart-name">{p.title}</p>

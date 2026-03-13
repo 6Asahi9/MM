@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./checkout.css";
 import Footer from "../Home/Footer";
+import { setOrderStatus } from "../api/cartApi";
+import { addToCart } from "../api/orderApi";
+
 const CheckoutPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const product = {
-    title: "Titanic (Real One)",
-    price: 2999,
-    image: "https://picsum.photos/id/1015/300/300",
-  };
+  const product = location.state?.product;
 
   const discount = 500;
   const tax = 0.18 * (product.price - discount);
@@ -17,13 +17,64 @@ const CheckoutPage = () => {
 
   const [paymentMethod, setPaymentMethod] = useState("card");
 
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardHolder, setCardHolder] = useState("");
+  const [expiry, setExpiry] = useState("");
+  const [cvv, setCvv] = useState("");
+
+  const [upi, setUpi] = useState("");
+
+  const [bank, setBank] = useState("");
+
+  async function handlePayment() {
+    try {
+      if (paymentMethod === "card") {
+        if (!cardNumber || !cardHolder || !expiry || !cvv) {
+          alert("Please fill all card details");
+          return;
+        }
+      }
+
+      if (paymentMethod === "upi") {
+        if (!upi) {
+          alert("Please enter UPI ID");
+          return;
+        }
+      }
+
+      if (paymentMethod === "netbanking") {
+        if (!bank) {
+          alert("Please select bank");
+          return;
+        }
+      }
+
+      try {
+        await addToCart(product._id);
+      } catch (err) {
+        console.log("Already exists or add skipped");
+      }
+
+      await setOrderStatus(product._id, "arrived");
+
+      alert("Payment Successful 🎉");
+
+      navigate("/main");
+    } catch (err) {
+      console.error(err);
+      alert(err.message || "Payment failed");
+    }
+  }
+
+  if (!product) return <p>No product selected</p>;
+
   return (
     <div className="checkout-whole">
       <div className="checkout-container">
         <h1>Checkout</h1>
 
         <div className="summary-card">
-          <img src={product.image} alt="product" className="thumb" />
+          <img src={product.images[0]} alt="product" className="thumb" />
 
           <div className="summary-info">
             <h2>{product.title}</h2>
@@ -71,23 +122,48 @@ const CheckoutPage = () => {
 
         {paymentMethod === "card" && (
           <div className="banking-form">
-            <input type="text" placeholder="Card Number" />
-            <input type="text" placeholder="Card Holder Name" />
-            <input type="text" placeholder="Expiry Date (MM/YY)" />
-            <input type="text" placeholder="CVV" />
+            <input
+              type="text"
+              placeholder="Card Number"
+              value={cardNumber}
+              onChange={(e) => setCardNumber(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Card Holder Name"
+              value={cardHolder}
+              onChange={(e) => setCardHolder(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Expiry Date (MM/YY)"
+              value={expiry}
+              onChange={(e) => setExpiry(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="CVV"
+              value={cvv}
+              onChange={(e) => setCvv(e.target.value)}
+            />
           </div>
         )}
 
         {paymentMethod === "upi" && (
           <div className="banking-form">
-            <input type="text" placeholder="Enter UPI ID (example@upi)" />
+            <input
+              type="text"
+              placeholder="Enter UPI ID"
+              value={upi}
+              onChange={(e) => setUpi(e.target.value)}
+            />
           </div>
         )}
 
         {paymentMethod === "netbanking" && (
           <div className="banking-form">
-            <select>
-              <option>Select Bank</option>
+            <select value={bank} onChange={(e) => setBank(e.target.value)}>
+              <option value="">Select Bank</option>
               <option>SBI</option>
               <option>HDFC</option>
               <option>ICICI</option>
@@ -100,14 +176,12 @@ const CheckoutPage = () => {
             Cancel
           </button>
 
-          <button
-            className="confirm"
-            onClick={() => alert("Payment Successful (Dummy) 🎉")}
-          >
+          <button className="confirm" onClick={handlePayment}>
             Confirm Payment
           </button>
         </div>
       </div>
+
       <Footer />
     </div>
   );

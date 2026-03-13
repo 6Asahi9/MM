@@ -173,8 +173,13 @@ const BuyPage = () => {
               <button
                 className="buy-now"
                 onClick={() => {
-                  if (localStorage.getItem("token")) navigate("/checkout");
-                  else alert("You must be Logged in to buy a product");
+                  if (localStorage.getItem("token")) {
+                    navigate("/checkout", {
+                      state: { product },
+                    });
+                  } else {
+                    alert("You must be Logged in to buy a product");
+                  }
                 }}
               >
                 Buy Now
