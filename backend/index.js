@@ -1,25 +1,34 @@
-// require("dotenv").config();
-// const { Pool } = require("pg");
+require("dotenv").config();
+const { Pool } = require("pg");
 
-// const pool = new Pool({
-//   connectionString: process.env.PG_URI,
-//   ssl: { rejectUnauthorized: false },
-// });
+const pool = new Pool({
+  connectionString: process.env.PG_URI,
+  ssl: { rejectUnauthorized: false },
+});
 
-// async function makeTable() {
-//   try {
-//     await pool.query(`
-//         CREATE TABLE IF NOT EXISTS users(
-//             id SERIAL PRIMARY KEY,
-//             username VARCHAR(50) UNIQUE NOT NULL,
-//             email VARCHAR(100) UNIQUE NOT NULL,
-//             password_hash TEXT,
-//             oauth_provider VARCHAR(20),
-//             oauth_id VARCHAR(100),
-//             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-//             )
-//         `);
+async function makeTable() {
+  try {
+    await pool.query(`
+    CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id) ON DELETE CASCADE,
+    product_id VARCHAR(24),  
+    quantity INT DEFAULT 1,
+    total_amount NUMERIC(10,2) NOT NULL DEFAULT 0,
+    status VARCHAR(20) DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);`);
+
+    console.log("Orders table updated successfully ✅");
+  } catch (err) {
+    console.error("Error updating orders table:", err);
+  } finally {
+    await pool.end();
+  }
+}
+
+makeTable();
 //     await pool.query(`
 //         CREATE TABLE IF NOT EXISTS orders(
 //             id SERIAL PRIMARY KEY,

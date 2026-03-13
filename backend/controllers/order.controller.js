@@ -55,28 +55,21 @@ async function userOrders(req, res) {
 
 async function addToCart(req, res) {
   try {
-    console.log("User ID:", req.user.id);
-    console.log("Body:", req.body);
-
     const userId = req.user.id;
     const { productId } = req.body;
 
     if (!productId)
       return res.status(400).json({ error: "Product ID required" });
 
-    const insertQuery = `
-      INSERT INTO orders (user_id, product_id, total_amount, quantity)
-      VALUES ($1, $2, $3, $4)
-      RETURNING *;
-    `;
-
-    const result = await pool.query(insertQuery, [userId, productId, 0, 1]);
+    const result = await pool.query(
+      `INSERT INTO orders (user_id, product_id) VALUES ($1, $2) RETURNING *`,
+      [userId, productId],
+    );
 
     res.status(201).json({ order: result.rows[0] });
   } catch (err) {
-    console.error("Add to cart error:", err);
+    console.error("Add to cart error:", err.message);
     res.status(500).json({ error: "Failed to add to cart" });
   }
 }
-
 module.exports = { newOrder, getOrder, addItem, userOrders, addToCart };
