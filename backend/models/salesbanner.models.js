@@ -9,4 +9,4 @@ const SalesSchema = new mongoose.Schema({
   end_date: Date,
 });
 
-module.exports = mongoose.model("SalesBanner", SalesSchema);
+module.exports = mongoose.model("Sales", SalesSchema);
