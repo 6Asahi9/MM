@@ -7,7 +7,7 @@ const {
   // createSale,
   // updateSale,
   // deleteSale,
-} = require("../controllers/sales.controller");
+} = require("../controllers/salesbanner.controller");
 
 const { authenticate } = require("../middleware/auth.middleware");
 
