@@ -33,7 +33,15 @@ const MainPage = () => {
 
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
-  const visibleProducts = products.slice(startIndex, endIndex);
+  function shuffleArray(array) {
+    return array
+      .map((a) => [Math.random(), a])
+      .sort((a, b) => a[0] - b[0])
+      .map((a) => a[1]);
+  }
+
+  const shuffledProducts = shuffleArray(products);
+  const visibleProducts = shuffledProducts.slice(startIndex, endIndex);
 
   return (
     <div className="main-container">

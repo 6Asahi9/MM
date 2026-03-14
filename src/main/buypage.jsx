@@ -20,6 +20,13 @@ const BuyPage = () => {
   const [explorePage, setExplorePage] = useState(1);
   const explorePerPage = 16;
 
+  function shuffleArray(array) {
+    return array
+      .map((a) => [Math.random(), a])
+      .sort((a, b) => a[0] - b[0])
+      .map((a) => a[1]);
+  }
+
   useEffect(() => {
     async function fetchProduct() {
       try {
@@ -51,19 +58,24 @@ const BuyPage = () => {
 
   if (!product) return <div>Loading...</div>;
 
-  const otherProducts = products.filter((p) => p._id !== product._id);
+  const otherProducts = shuffleArray(
+    products.filter((p) => p._id !== product._id),
+  );
 
-  const recommendedProducts = otherProducts.slice(0, 4).map((p) => ({
-    id: p._id,
-    title: p.title,
-    price: p.price,
-    image: p.images[0],
-  }));
+  const recommendedProductsShuffled = shuffleArray(otherProducts);
+  const recommendedProducts = recommendedProductsShuffled
+    .slice(0, 4)
+    .map((p) => ({
+      id: p._id,
+      title: p.title,
+      price: p.price,
+      image: p.images[0],
+    }));
 
+  const exploreProductsShuffled = shuffleArray(otherProducts);
   const startIndex = (explorePage - 1) * explorePerPage;
   const endIndex = startIndex + explorePerPage;
-
-  const exploreMoreProducts = otherProducts
+  const exploreMoreProducts = exploreProductsShuffled
     .slice(startIndex, endIndex)
     .map((p) => ({
       id: p._id,

@@ -9,11 +9,15 @@ const ProductCard = ({ product }) => {
     navigate(`/buypage/${product.id}`);
   };
 
+  function formatPriceINR(price) {
+    return price.toLocaleString("en-IN");
+  }
+
   return (
     <div className="product-card" onClick={goToBuyPage}>
       <img src={product.image} alt={product.title} />
       <h3>{product.title}</h3>
-      <p>₹{product.price}</p>
+      <p>₹{formatPriceINR(product.price)}</p>
     </div>
   );
 };

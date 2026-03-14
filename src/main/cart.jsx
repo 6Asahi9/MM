@@ -11,6 +11,10 @@ export default function Cart() {
   const [completedProducts, setCompletedProducts] = useState([]);
   const nav = useNavigate();
 
+  function formatPriceINR(price) {
+    return price.toLocaleString("en-IN");
+  }
+
   useEffect(() => {
     async function fetchOrders() {
       try {
@@ -74,7 +78,7 @@ export default function Cart() {
             className={tab === "past" ? "active-tab" : ""}
             onClick={() => setTab("past")}
           >
-            Completed Orders
+            Delivered
           </button>
         </div>
 
@@ -93,14 +97,14 @@ export default function Cart() {
                   <img src={p.images[0]} alt={p.title} className="thumb" />
                   <div className="cart-info">
                     <p className="cart-name">{p.title}</p>
-                    <p className="cart-price">${p.price.toFixed(2)}</p>
+                    <p className="cart-price">₹{formatPriceINR(p.price)}</p>
                   </div>
                 </div>
               ))
             )}
             {pendingProducts.length > 0 && (
               <div className="cart-total">
-                <strong>Total: ${totalPrice.toFixed(2)}</strong>
+                <strong>Total: ₹{formatPriceINR(totalPrice)}</strong>
               </div>
             )}
           </div>
@@ -121,7 +125,7 @@ export default function Cart() {
                   <img src={p.images[0]} alt={p.title} className="thumb" />
                   <div className="cart-info">
                     <p className="cart-name">{p.title}</p>
-                    <p className="cart-price">${p.price.toFixed(2)}</p>
+                    <p className="cart-price">₹{formatPriceINR(p.price)}</p>
                   </div>
                 </div>
               ))
