@@ -30,7 +30,17 @@ const BuyPage = () => {
   useEffect(() => {
     async function fetchProduct() {
       try {
-        const data = await getProductById(id);
+        let data = null;
+
+        try {
+          data = await getProductById(id);
+        } catch (err) {}
+
+        if (!data || !data._id) {
+          data = await getSaleById(id);
+          if (!data) throw new Error("Product not found");
+        }
+
         setProduct(data);
       } catch (err) {
         console.error("Failed to fetch product:", err.message);
@@ -39,6 +49,7 @@ const BuyPage = () => {
 
     fetchProduct();
   }, [id]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
