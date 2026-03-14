@@ -1,34 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import "./SaleBanner.css";
+import { getSales } from "../../api/salesApi";
 
 const SaleBanner = () => {
-  const saleProducts = [
-    {
-      id: 1001,
-      title: "Coral Reef Kit",
-      price: 2999,
-      image: "https://picsum.photos/id/1015/800/800",
-    },
-    {
-      id: 1002,
-      title: "Ocean Pearl Set",
-      price: 1999,
-      image: "https://picsum.photos/id/1015/800/800",
-    },
-    {
-      id: 1003,
-      title: "Deep Sea Lamp",
-      price: 3999,
-      image: "https://picsum.photos/id/1015/800/800",
-    },
-    {
-      id: 1004,
-      title: "Miya Special Tank",
-      price: 4999,
-      image: "https://picsum.photos/id/1015/800/800",
-    },
-  ];
+  const [saleProducts, setSaleProducts] = useState([]);
+
+  useEffect(() => {
+    async function fetchSales() {
+      const salesData = await getSales();
+      const mappedSales = salesData.map((sale) => ({
+        id: sale._id,
+        title: sale.title,
+        price: sale.price,
+        image: sale.images[0],
+      }));
+      setSaleProducts(mappedSales);
+    }
+
+    fetchSales();
+  }, []);
 
   return (
     <div className="sale-banner">

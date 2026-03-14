@@ -2,16 +2,19 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  getSalesBanners,
-  getSalesBannerById,
-  createSalesBanner,
-  updateSalesBanner,
-  deleteSalesBanner,
-} = require("../controllers/salesbanner.controller");
+  getSales,
+  getSaleById,
+  // createSale,
+  // updateSale,
+  // deleteSale,
+} = require("../controllers/sales.controller");
 
 const { authenticate } = require("../middleware/auth.middleware");
 
-router.get("/", getSalesBanners);
-router.get("/:id", getSalesBannerById);
+router.get("/", getSales);
+router.get("/:id", getSaleById);
+// router.post("/", authenticate, createSale);
+// router.put("/:id", authenticate, updateSale);
+// router.delete("/:id", authenticate, deleteSale);
 
 module.exports = router;

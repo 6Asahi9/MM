@@ -1,55 +1,55 @@
-const SalesBanner = require("../models/salesbanner.models");
+const Sales = require("../models/salesbanner.models");
 
-exports.getSalesBanners = async (req, res) => {
+exports.getSales = async (req, res) => {
   try {
-    const banners = await SalesBanner.find();
-    res.json(banners);
+    const sales = await Sales.find();
+    res.json(sales);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-exports.getSalesBannerById = async (req, res) => {
+exports.getSaleById = async (req, res) => {
   try {
-    const banner = await SalesBanner.findById(req.params.id);
-    if (!banner) return res.status(404).json({ message: "Banner not found" });
-    res.json(banner);
+    const sale = await Sales.findById(req.params.id);
+    if (!sale) return res.status(404).json({ message: "Sale not found" });
+    res.json(sale);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-exports.createSalesBanner = async (req, res) => {
+exports.createSale = async (req, res) => {
   try {
-    const newBanner = new SalesBanner(req.body);
-    await newBanner.save();
-    res.status(201).json(newBanner);
+    const newSale = new Sales(req.body);
+    await newSale.save();
+    res.status(201).json(newSale);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-exports.updateSalesBanner = async (req, res) => {
+exports.updateSale = async (req, res) => {
   try {
-    const banner = await SalesBanner.findById(req.params.id);
-    if (!banner) return res.status(404).json({ message: "Banner not found" });
+    const sale = await Sales.findById(req.params.id);
+    if (!sale) return res.status(404).json({ message: "Sale not found" });
 
-    Object.assign(banner, req.body, { updated_at: Date.now() });
-    await banner.save();
+    Object.assign(sale, req.body, { updated_at: Date.now() });
+    await sale.save();
 
-    res.json(banner);
+    res.json(sale);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-exports.deleteSalesBanner = async (req, res) => {
+exports.deleteSale = async (req, res) => {
   try {
-    const banner = await SalesBanner.findById(req.params.id);
-    if (!banner) return res.status(404).json({ message: "Banner not found" });
+    const sale = await Sales.findById(req.params.id);
+    if (!sale) return res.status(404).json({ message: "Sale not found" });
 
-    await banner.deleteOne();
-    res.json({ message: "Banner deleted successfully" });
+    await sale.deleteOne();
+    res.json({ message: "Sale deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
