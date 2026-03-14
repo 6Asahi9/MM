@@ -1,0 +1,243 @@
+.buy-container {
+  padding: 40px;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(
+    to top,
+    #000000 30%,
+    #1b4f72 60%,
+    #21618c 80%,
+    #aed6f1 100%
+  );
+}
+.brand-name {
+  font-family: "Playfair Display", serif;
+  font-size: 26px;
+  color: black;
+  transition: 0.2s;
+}
+
+.checkout-header {
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  padding: 8px 40px;
+  height: 50px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.backbutton {
+  background: #40e0d0;
+  color: #000;
+  margin: 20px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.backbutton:hover {
+  background: #32cfc0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.559);
+}
+
+.backbutton:active {
+  transform: translateY(0px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar {
+  flex: 1;
+  max-width: 500px;
+  margin: 0 20px;
+  padding: 12px 15px;
+  border-radius: 15px;
+  border: 1.5px solid #000000;
+}
+
+.buy-top {
+  display: flex;
+  gap: 40px;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.image-section {
+  max-width: 500px; /* prevents stretching */
+  width: 100%;
+}
+
+.main-image {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.thumbnail-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.thumbnail {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: 0.2s;
+}
+
+.thumbnail:hover {
+  border-color: #1ca3ec;
+}
+
+.info-section {
+  flex: 1;
+}
+
+.info-section h1 {
+  margin-bottom: 10px;
+}
+
+.rating {
+  color: #f39c12;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.price {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.description {
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.add-cart {
+  padding: 10px 20px;
+  background-color: #40e0d0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.buy-now {
+  padding: 10px 20px;
+  background-color: #1ca3ec;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.comments-section {
+  margin-top: 40px;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.comment-card {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.comment-card:last-child {
+  border-bottom: none;
+}
+
+.recommend-section {
+  margin-top: 40px;
+}
+
+.recommend-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.more-section {
+  margin-top: 50px;
+}
+
+.more-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
+}
+
+.main-image-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.arrow {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 1;
+}
+
+.arrow.left {
+  left: 0;
+}
+
+.arrow.right {
+  right: 0;
+}
+
+.thumbnail-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  opacity: 0.6;
+  border: 2px solid transparent;
+}
+
+.thumbnail:hover {
+  opacity: 1;
+}
+
+.active-thumb {
+  opacity: 1;
+  border: 2px solid #000;
+}
+
+#recommend-name {
+  margin-top: 70px;
+  color: white;
+}
+
+#explore-name {
+  color: white;
+}

@@ -20,9 +20,11 @@ const BuyPage = () => {
 
   const [product, setProduct] = useState(null);
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [explorePage, setExplorePage] = useState(1);
+
   const explorePerPage = 16;
 
   function shuffleArray(array) {
@@ -63,6 +65,7 @@ const BuyPage = () => {
 
     fetchProduct();
   }, [id]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
@@ -83,24 +86,25 @@ const BuyPage = () => {
   if (loading) return <div>Loading...</div>;
   if (!product) return <div>Product not found</div>;
 
-  const otherProducts = shuffleArray(
-    products.filter((p) => p._id !== product._id),
+  const otherProducts = products.filter((p) => p._id !== product._id);
+
+  const filteredProducts = otherProducts.filter((p) =>
+    p.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  const recommendedProductsShuffled = shuffleArray(otherProducts);
-  const recommendedProducts = recommendedProductsShuffled
-    .slice(0, 4)
-    .map((p) => ({
-      id: p._id,
-      title: p.title,
-      price: p.price,
-      image: p.images[0],
-    }));
+  const shuffledFiltered = shuffleArray(filteredProducts);
 
-  const exploreProductsShuffled = shuffleArray(otherProducts);
+  const recommendedProducts = shuffledFiltered.slice(0, 4).map((p) => ({
+    id: p._id,
+    title: p.title,
+    price: p.price,
+    image: p.images[0],
+  }));
+
   const startIndex = (explorePage - 1) * explorePerPage;
   const endIndex = startIndex + explorePerPage;
-  const exploreMoreProducts = exploreProductsShuffled
+
+  const exploreMoreProducts = shuffledFiltered
     .slice(startIndex, endIndex)
     .map((p) => ({
       id: p._id,
@@ -136,7 +140,16 @@ const BuyPage = () => {
           </span>
         </div>
 
-        <input type="text" placeholder="Search..." className="search-bar" />
+        <input
+          type="text"
+          placeholder="Search..."
+          className="search-bar"
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setExplorePage(1);
+          }}
+        />
 
         <div className="icons">
           <button onClick={() => navigate("/account")}>
@@ -236,7 +249,7 @@ const BuyPage = () => {
           <ProductGrid products={exploreMoreProducts} />
 
           <Pagination
-            totalProducts={otherProducts.length}
+            totalProducts={filteredProducts.length}
             productsPerPage={explorePerPage}
             currentPage={explorePage}
             setCurrentPage={setExplorePage}

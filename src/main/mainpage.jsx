@@ -15,7 +15,10 @@ const MainPage = () => {
   const isSaleActive = true;
 
   const [products, setProducts] = useState([]);
+  const [shuffledProducts, setShuffledProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+
   const productsPerPage = 8;
 
   useEffect(() => {
@@ -31,8 +34,10 @@ const MainPage = () => {
     fetchProducts();
   }, []);
 
-  const startIndex = (currentPage - 1) * productsPerPage;
-  const endIndex = startIndex + productsPerPage;
+  useEffect(() => {
+    setShuffledProducts(shuffleArray(products));
+  }, [products]);
+
   function shuffleArray(array) {
     return array
       .map((a) => [Math.random(), a])
@@ -40,8 +45,14 @@ const MainPage = () => {
       .map((a) => a[1]);
   }
 
-  const shuffledProducts = shuffleArray(products);
-  const visibleProducts = shuffledProducts.slice(startIndex, endIndex);
+  const filteredProducts = shuffledProducts.filter((product) =>
+    product.title.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+
+  const visibleProducts = filteredProducts.slice(startIndex, endIndex);
 
   return (
     <div className="main-container">
@@ -51,7 +62,18 @@ const MainPage = () => {
             <img src={logo} alt="Logo" className="logo-img" />
             <span id="brand-name">Miya Marines</span>
           </div>
-          <input type="text" placeholder="Search..." className="search-bar" />
+
+          <input
+            type="text"
+            placeholder="Search..."
+            className="search-bar"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
+
           <div className="icons">
             <button onClick={() => navigate("/account")}>
               <FaUserCircle size={35} />
@@ -66,7 +88,7 @@ const MainPage = () => {
         </div>
 
         {isSaleActive && <SaleBanner />}
-        {<CategoriesBar />}
+        <CategoriesBar />
       </div>
 
       <ProductGrid
@@ -79,11 +101,12 @@ const MainPage = () => {
       />
 
       <Pagination
-        totalProducts={products.length}
+        totalProducts={filteredProducts.length}
         productsPerPage={productsPerPage}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
       />
+
       <Footer />
     </div>
   );

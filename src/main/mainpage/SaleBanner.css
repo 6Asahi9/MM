@@ -29,7 +29,8 @@
 
 .sale-products {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(220px, max-content));
+  justify-content: center;
   gap: 25px;
   margin-top: 40px;
 }

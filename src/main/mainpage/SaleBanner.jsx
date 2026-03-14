@@ -29,9 +29,7 @@ const SaleBanner = () => {
     <div className="sale-banner">
       <div className="sale-header">
         <h2 id="big-name">Make Waves This Season 🌊</h2>
-        <p id="smaller-name">
-          Up to 15,000 INR off curated marine essentials — Limited Time Only
-        </p>
+        <p id="smaller-name">Our Best Selling!</p>
       </div>
 
       <div className="sale-products">
