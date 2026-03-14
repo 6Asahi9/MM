@@ -1,8 +1,8 @@
-const Sales = require("../models/salesbanner.models");
+const Product = require("../models/products.models");
 
 exports.getSales = async (req, res) => {
   try {
-    const sales = await Sales.find();
+    const sales = await Product.find({ status: "sale" });
     res.json(sales);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -11,8 +11,15 @@ exports.getSales = async (req, res) => {
 
 exports.getSaleById = async (req, res) => {
   try {
-    const sale = await Sales.findById(req.params.id);
-    if (!sale) return res.status(404).json({ message: "Sale not found" });
+    const sale = await Product.findOne({
+      _id: req.params.id,
+      status: "sale",
+    });
+
+    if (!sale) {
+      return res.status(404).json({ message: "Sale not found" });
+    }
+
     res.json(sale);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -21,7 +28,11 @@ exports.getSaleById = async (req, res) => {
 
 exports.createSale = async (req, res) => {
   try {
-    const newSale = new Sales(req.body);
+    const newSale = new Product({
+      ...req.body,
+      status: "sale",
+    });
+
     await newSale.save();
     res.status(201).json(newSale);
   } catch (err) {
@@ -31,10 +42,20 @@ exports.createSale = async (req, res) => {
 
 exports.updateSale = async (req, res) => {
   try {
-    const sale = await Sales.findById(req.params.id);
-    if (!sale) return res.status(404).json({ message: "Sale not found" });
+    const sale = await Product.findOne({
+      _id: req.params.id,
+      status: "sale",
+    });
 
-    Object.assign(sale, req.body, { updated_at: Date.now() });
+    if (!sale) {
+      return res.status(404).json({ message: "Sale not found" });
+    }
+
+    Object.assign(sale, req.body, {
+      updated_at: Date.now(),
+      status: "sale",
+    });
+
     await sale.save();
 
     res.json(sale);
@@ -45,10 +66,17 @@ exports.updateSale = async (req, res) => {
 
 exports.deleteSale = async (req, res) => {
   try {
-    const sale = await Sales.findById(req.params.id);
-    if (!sale) return res.status(404).json({ message: "Sale not found" });
+    const sale = await Product.findOne({
+      _id: req.params.id,
+      status: "sale",
+    });
+
+    if (!sale) {
+      return res.status(404).json({ message: "Sale not found" });
+    }
 
     await sale.deleteOne();
+
     res.json({ message: "Sale deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });

@@ -8,6 +8,7 @@ import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 import logo from "../assets/Images/logo-modified.png";
 import { getProductById, getProducts } from "../api/productApi";
 import { addToCart } from "../api/orderApi";
+import { getSaleById } from "../api/salesApi";
 
 const BuyPage = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const BuyPage = () => {
   const [product, setProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
+  const [loading, setLoading] = useState(true);
   const [explorePage, setExplorePage] = useState(1);
   const explorePerPage = 16;
 
@@ -33,12 +34,31 @@ const BuyPage = () => {
 
   useEffect(() => {
     async function fetchProduct() {
+      setLoading(true);
+
       try {
-        const data = await getProductById(id);
-        setProduct(data);
+        let data = null;
+        let source = "product";
+
+        try {
+          data = await getProductById(id);
+        } catch (error) {
+          data = null;
+          console.log("seems to be from sales banner", error);
+        }
+
+        if (!data) {
+          data = await getSaleById(id);
+          source = "sale";
+        }
+
+        setProduct({ ...data, source });
       } catch (err) {
-        console.error("Failed to fetch product:", err.message);
+        console.error(err.message);
+        setProduct(null);
       }
+
+      setLoading(false);
     }
 
     fetchProduct();
@@ -60,7 +80,8 @@ const BuyPage = () => {
     fetchProducts();
   }, []);
 
-  if (!product) return <div>Loading...</div>;
+  if (loading) return <div>Loading...</div>;
+  if (!product) return <div>Product not found</div>;
 
   const otherProducts = shuffleArray(
     products.filter((p) => p._id !== product._id),
@@ -176,7 +197,7 @@ const BuyPage = () => {
                   }
 
                   try {
-                    await addToCart(product._id);
+                    await addToCart(product._id, product.source);
                     navigate("/cart");
                   } catch (err) {
                     alert(err.message || "Failed to add to cart");

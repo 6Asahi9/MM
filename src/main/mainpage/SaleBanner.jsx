@@ -9,12 +9,16 @@ const SaleBanner = () => {
   useEffect(() => {
     async function fetchSales() {
       const salesData = await getSales();
+
+      if (!Array.isArray(salesData)) return;
+
       const mappedSales = salesData.map((sale) => ({
         id: sale._id,
         title: sale.title,
         price: sale.price,
-        image: sale.images[0],
+        image: sale.images?.[0] || "",
       }));
+
       setSaleProducts(mappedSales);
     }
 

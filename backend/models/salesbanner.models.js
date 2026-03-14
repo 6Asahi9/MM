@@ -15,4 +15,4 @@ const SalesSchema = new mongoose.Schema({
   updated_at: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("Sales", SalesSchema);
+module.exports = mongoose.model("products", SalesSchema);
