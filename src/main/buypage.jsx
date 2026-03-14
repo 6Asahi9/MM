@@ -13,6 +13,10 @@ const BuyPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  function formatPriceINR(price) {
+    return price.toLocaleString("en-IN");
+  }
+
   const [product, setProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -30,17 +34,7 @@ const BuyPage = () => {
   useEffect(() => {
     async function fetchProduct() {
       try {
-        let data = null;
-
-        try {
-          data = await getProductById(id);
-        } catch (err) {}
-
-        if (!data || !data._id) {
-          data = await getSaleById(id);
-          if (!data) throw new Error("Product not found");
-        }
-
+        const data = await getProductById(id);
         setProduct(data);
       } catch (err) {
         console.error("Failed to fetch product:", err.message);
@@ -49,7 +43,6 @@ const BuyPage = () => {
 
     fetchProduct();
   }, [id]);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
@@ -170,7 +163,7 @@ const BuyPage = () => {
 
           <div className="info-section">
             <h1>{product.title}</h1>
-            <div className="price">₹{product.price}</div>
+            <div className="price">₹{formatPriceINR(product.price)}</div>
             <p className="description">{product.description}</p>
 
             <div className="buttons">

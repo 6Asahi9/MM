@@ -11,7 +11,7 @@ const CheckoutPage = () => {
 
   const product = location.state?.product;
 
-  const discount = 500;
+  const discount = 15000;
   const tax = 0.18 * (product.price - discount);
   const total = product.price - discount + tax;
 
@@ -25,6 +25,10 @@ const CheckoutPage = () => {
   const [upi, setUpi] = useState("");
 
   const [bank, setBank] = useState("");
+
+  function formatPriceINR(price) {
+    return price.toLocaleString("en-IN");
+  }
 
   async function handlePayment() {
     try {
@@ -57,7 +61,7 @@ const CheckoutPage = () => {
 
       await setOrderStatus(product._id, "arrived");
 
-      alert("Payment Successful 🎉");
+      alert("Payment Successful");
 
       navigate("/main");
     } catch (err) {
@@ -78,11 +82,11 @@ const CheckoutPage = () => {
 
           <div className="summary-info">
             <h2>{product.title}</h2>
-            <p>Price: ₹{product.price}</p>
-            <p>Discount: -₹{discount}</p>
-            <p>Tax (18% GST): ₹{tax.toFixed(2)}</p>
+            <p>Price: ₹{formatPriceINR(product.price)}</p>
+            <p>Discount: -₹{formatPriceINR(discount)}</p>
+            <p>Tax (18% GST): ₹{formatPriceINR(tax)}</p>
 
-            <h2 className="total">Total: ₹{total.toFixed(2)}</h2>
+            <h2 className="total">Total: ₹{formatPriceINR(total)}</h2>
           </div>
         </div>
 
