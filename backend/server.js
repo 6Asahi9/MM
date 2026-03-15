@@ -22,7 +22,8 @@ app.use(helmet());
 
 const allowedOrigins = [
   process.env.FRONTEND_URL?.trim(),
-  "http://localhost:5173",
+  // "http://localhost:5173",
+  "https://mm-hxbs.onrender.com",
 ];
 
 app.use(
