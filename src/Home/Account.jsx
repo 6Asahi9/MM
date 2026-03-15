@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./account.css";
+import "./Account.css";
 import logo from "../assets/Images/logo-modified.png";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Home/Footer";
