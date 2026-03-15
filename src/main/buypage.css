@@ -241,3 +241,30 @@
 #explore-name {
   color: white;
 }
+
+.comments-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  border-top: 1px solid #ddd;
+}
+
+.new-comment textarea {
+  width: 100%;
+  min-height: 60px;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+}
+
+.new-comment button {
+  margin-left: 0.5rem;
+}
+
+.comment-list {
+  list-style: none;
+  padding: 0;
+}
+
+.comment-item {
+  border-bottom: 1px solid #eee;
+  padding: 0.5rem 0;
+}

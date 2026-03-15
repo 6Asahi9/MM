@@ -20,7 +20,15 @@ exports.getCommentsByProduct = async (req, res) => {
 
 exports.createComment = async (req, res) => {
   try {
-    const newComment = new Comment(req.body);
+    const { product_id, content, rating } = req.body;
+
+    const newComment = new Comment({
+      product_id,
+      content,
+      rating,
+      user_id: req.user.id,
+    });
+
     await newComment.save();
     res.status(201).json(newComment);
   } catch (err) {
@@ -30,16 +38,18 @@ exports.createComment = async (req, res) => {
 
 exports.updateComment = async (req, res) => {
   try {
-    const comment = await Comment.findByIdAndUpdate(
-      req.params.id,
-      { ...req.body, updated_at: Date.now() },
-      { new: true },
-    );
+    const comment = await Comment.findById(req.params.id);
+    if (!comment) return res.status(404).json({ message: "Comment not found" });
 
-    if (!comment) {
-      return res.status(404).json({ message: "Comment not found" });
+    if (comment.user_id !== req.user.id) {
+      return res.status(403).json({ message: "Not allowed" });
     }
 
+    comment.content = req.body.content ?? comment.content;
+    comment.rating = req.body.rating ?? comment.rating;
+    comment.updated_at = Date.now();
+
+    await comment.save();
     res.json(comment);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -48,12 +58,14 @@ exports.updateComment = async (req, res) => {
 
 exports.deleteComment = async (req, res) => {
   try {
-    const comment = await Comment.findByIdAndDelete(req.params.id);
+    const comment = await Comment.findById(req.params.id);
+    if (!comment) return res.status(404).json({ message: "Comment not found" });
 
-    if (!comment) {
-      return res.status(404).json({ message: "Comment not found" });
+    if (comment.user_id !== req.user.id) {
+      return res.status(403).json({ message: "Not allowed" });
     }
 
+    await comment.remove();
     res.json({ message: "Comment deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -63,13 +75,10 @@ exports.deleteComment = async (req, res) => {
 exports.addReply = async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.id);
-
-    if (!comment) {
-      return res.status(404).json({ message: "Comment not found" });
-    }
+    if (!comment) return res.status(404).json({ message: "Comment not found" });
 
     comment.replies.push({
-      user_id: req.body.user_id,
+      user_id: req.user.id,
       content: req.body.content,
     });
 

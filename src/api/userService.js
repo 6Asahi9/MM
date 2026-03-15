@@ -109,3 +109,14 @@ export async function deleteAccount() {
     throw error;
   }
 }
+
+export async function findUserById(id) {
+  const response = await fetch(`${API_URL}/api/auth/user/${id}`, {
+    method: "GET",
+    mode: "cors",
+    headers: { "Content-Type": "application/json" },
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || "User not found");
+  return data;
+}
