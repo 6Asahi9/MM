@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./ReviewWheel.css";
 
-import img1 from "../assets/Humans/img1.png";
-import img2 from "../assets/Humans/img2.png";
-import img3 from "../assets/Humans/img3.png";
-import img4 from "../assets/Humans/img4.png";
-import img5 from "../assets/Humans/img5.png";
+import img1 from "../assets/humans/img1.png";
+import img2 from "../assets/humans/img2.png";
+import img3 from "../assets/humans/img3.png";
+import img4 from "../assets/humans/img4.png";
+import img5 from "../assets/humans/img5.png";
 
 const reviews = [
   "When you're running a country, you need a fleet that performs. Miya Marines delivered my private command cruiser with elegance and precision. Unmatched — Ambassador Darnell Hughes",
