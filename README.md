@@ -1,8 +1,19 @@
-## Links
-- Site: [Live Demo](https://mm-hxbs.onrender.com)
-- If backend is sleeping, wake it here: [Backend Health Check](https://mm-backend-render.onrender.com/healthz)
-
 # Miya Marines
+
+## Links
+
+* Site: [Live Demo](https://mm-hxbs.onrender.com)
+* If backend is sleeping, wake it here: [Backend Health Check](https://mm-backend-render.onrender.com/healthz)
+
+## Device Support
+
+This project is currently optimized for desktop screens.
+
+Mobile phones are not fully supported yet, and tablet compatibility may vary depending on screen size.
+
+---
+
+## Project Overview
 
 Miya Marines is a full-stack ecommerce-style study project built around the idea of selling marine vehicles ranging from rescue boats and luxury vessels to cargo ships, submarines, and aircraft carriers.
 
@@ -10,30 +21,30 @@ It was created mainly as a learning project to explore frontend architecture, ba
 
 ---
 
-# Tech Stack
+## Tech Stack
 
-## Frontend
+### Frontend
 
-- React
-- Vite
+* React
+* Vite
 
-## Backend
+### Backend
 
-- Node.js
-- Express.js
+* Node.js
+* Express.js
 
-## Databases
+### Databases
 
-- Neon PostgreSQL → users, authentication data, orders
-- MongoDB Atlas → products, comments
+* Neon PostgreSQL → users, authentication data, orders
+* MongoDB Atlas → products, comments
 
-## Deployment
+### Deployment
 
-- Backend hosted on Render
+* Backend hosted on Render
 
 ---
 
-# Important Deployment Note
+## Important Deployment Note
 
 The backend is hosted on Render free tier.
 
@@ -43,159 +54,159 @@ If the app seems slow at first load, wait briefly and retry.
 
 ---
 
-# Main Features
+## Main Features
 
-- User registration and login
-- Authentication-based protected pages
-- Product publishing system
-- Product browsing homepage
-- Cart system
-- Checkout flow
-- Buy page
-- Account and security sections
-- Delivered orders section
-- Product comments with rating input
+* User registration and login
+* Authentication-based protected pages
+* Product publishing system
+* Product browsing homepage
+* Cart system
+* Checkout flow
+* Buy page
+* Account and security sections
+* Delivered orders section
+* Product comments with rating input
 
 ---
 
-# Current Product Types
+## Current Product Types
 
 Miya Marines currently includes listings such as:
 
-- Sale boats
-- Finishing boats
-- Rescue boats
-- Cargo vessels
-- Luxury yachts
-- Military submarines
-- Aircraft carriers
+* Sale boats
+* Finishing boats
+* Rescue boats
+* Cargo vessels
+* Luxury yachts
+* Military submarines
+* Aircraft carriers
 
 ---
 
-# Screenshots
+## Screenshots
 
-## Hub / Intro Page
+### Hub / Intro Page
 
 ![Hub Page](src/assets/github/hubMM.png)
 
-## Login Page
+### Login Page
 
 ![Login Page](src/assets/github/loginMM.png)
 
-## Main Page
+### Main Page
 
 ![Main Page](src/assets/github/mainMM.png)
 
-## Buy Page
+### Buy Page
 
 ![Buy Page](src/assets/github/buypageMM.png)
 
-## Cart Page
+### Cart Page
 
 ![Cart Page](src/assets/github/cartMM.png)
 
-## Checkout Page
+### Checkout Page
 
 ![Checkout Page](src/assets/github/checkoutMM.png)
 
 ---
 
-# Project Structure Highlights
+## Project Structure Highlights
 
-## PostgreSQL handles
+### PostgreSQL handles
 
-- Users
-- Orders
-- Authentication-related relational data
+* Users
+* Orders
+* Authentication-related relational data
 
-## MongoDB handles
+### MongoDB handles
 
-- Products
-- Product comments
-- Flexible product schemas
+* Products
+* Product comments
+* Flexible product schemas
 
 This split was chosen because product types vary heavily, while user/order relationships benefit from relational structure.
 
 ---
 
-# Current Limitations
+## Current Limitations
 
 This project was built primarily for learning, so some systems are intentionally incomplete.
 
-## Authentication
+### Authentication
 
-- Username/email/password works
-- Passport OAuth (Google / Facebook) currently not fully connected
+* Username/email/password works
+* Passport OAuth (Google / Facebook) currently not fully connected
 
-## Payments
+### Payments
 
-- Payment flow UI exists
-- Real payment gateway is not connected yet
+* Payment flow UI exists
+* Real payment gateway is not connected yet
 
-## Comments
+### Comments
 
-- Users can comment without purchase verification
-- Ratings are added through comments only
+* Users can comment without purchase verification
+* Ratings are added through comments only
 
-## Moderation
+### Moderation
 
-- No account blocking/reporting yet
-- No product reporting system yet
+* No account blocking/reporting yet
+* No product reporting system yet
 
-## Categories
+### Categories
 
-- Product category system not added yet
+* Product category system not added yet
 
-## Images
+### Images
 
-- Product publishing currently accepts image links only
-- Direct image upload not implemented because free-tier storage was avoided
+* Product publishing currently accepts image links only
+* Direct image upload not implemented because free-tier storage was avoided
 
-## Security
+### Security
 
-- Rate limiter exists but is commented during development for convenience
+* Rate limiter exists but is commented during development for convenience
 
-## Extra Files
+### Extra Files
 
-- Some backend/frontend files are intentionally prepared for future expansion but not yet connected
+* Some backend/frontend files are intentionally prepared for future expansion but not yet connected
 
 ---
 
-# Why This Project Exists
+## Why This Project Exists
 
 This project was made as a practical learning exercise to understand:
 
-- frontend to backend communication
-- authentication flow
-- API design
-- multi-database architecture
-- deployment behavior
-- feature planning for future scalability
+* frontend to backend communication
+* authentication flow
+* API design
+* multi-database architecture
+* deployment behavior
+* feature planning for future scalability
 
 ---
 
-# Future Improvements
+## Future Improvements
 
-- OAuth login completion
-- Payment gateway integration
-- Verified purchase comments
-- Product categories and filtering
-- Direct image uploads
-- Reporting/moderation tools
-- Rate limiting in production mode
+* OAuth login completion
+* Payment gateway integration
+* Verified purchase comments
+* Product categories and filtering
+* Direct image uploads
+* Reporting/moderation tools
+* Rate limiting in production mode
 
 ---
 
-# Running Locally
+## Running Locally
 
-## Frontend
+### Frontend
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Backend
+### Backend
 
 ```bash
 npm install
@@ -204,9 +215,9 @@ node server.js
 
 ---
 
-# Note
+## Note
 
 This is a study-focused project, so the goal was learning architecture and system flow rather than production completeness.
 
-This project is licensed under the GNU General Public License v3.  
+This project is licensed under the GNU General Public License v3.
 Attribution is required: any distributed version must credit the original author (**6Asahi9**) and include a link to the original repository.
