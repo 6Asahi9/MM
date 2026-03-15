@@ -182,6 +182,9 @@ export default function Account() {
               <strong>UPI number:</strong>{" "}
               {loading ? "Loading..." : userInfo.upi}
             </p>
+            <button className="register-btn" onClick={() => nav("/login")}>
+              Register
+            </button>
           </div>
         )}
       </div>
