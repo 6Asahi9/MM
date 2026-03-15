@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import "./Security.css";
 import Footer from "../Home/Footer";
 import { deleteAccount, changePassword } from "../api/userService";
+import loadingGif from "../assets/Gif/loading.gif";
+import failedGif from "../assets/Gif/failed.gif";
+import GifModal from "../Tools/GifModal";
 
 export default function Account() {
   const [tab, setTab] = useState("security");
@@ -18,15 +21,42 @@ export default function Account() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
+  const [gifModal, setGifModal] = useState({
+    show: false,
+    gifSrc: "",
+    message: "",
+  });
+
   const confirmPasswordChange = async () => {
     try {
+      setGifModal({
+        show: true,
+        gifSrc: loadingGif,
+        message: "Changing password...",
+      });
       await changePassword(currentPassword, newPassword);
-      alert("Password changed successfully!");
+      setGifModal({
+        show: true,
+        gifSrc: loadingGif,
+        message: "Password changed successfully!",
+      });
+      setTimeout(
+        () => setGifModal({ show: false, gifSrc: "", message: "" }),
+        2000,
+      );
       setEditField(null);
       setCurrentPassword("");
       setNewPassword("");
     } catch (err) {
-      alert(err.message || "Password change failed.");
+      setGifModal({
+        show: true,
+        gifSrc: failedGif,
+        message: err.message || "Password change failed.",
+      });
+      setTimeout(
+        () => setGifModal({ show: false, gifSrc: "", message: "" }),
+        2000,
+      );
     }
   };
 
@@ -34,6 +64,65 @@ export default function Account() {
     setEditField(null);
     setCurrentPassword("");
     setNewPassword("");
+  };
+
+  const handleLogout = () => {
+    if (!localStorage.getItem("token")) {
+      setGifModal({
+        show: true,
+        gifSrc: failedGif,
+        message: "You are not logged in.",
+      });
+      setTimeout(
+        () => setGifModal({ show: false, gifSrc: "", message: "" }),
+        2000,
+      );
+      return;
+    }
+    setGifModal({ show: true, gifSrc: loadingGif, message: "Logging out..." });
+    setTimeout(() => {
+      localStorage.clear();
+      setGifModal({
+        show: true,
+        gifSrc: loadingGif,
+        message: "Logged out successfully!",
+      });
+      setTimeout(() => {
+        setGifModal({ show: false, gifSrc: "", message: "" });
+        nav("/login");
+      }, 1000);
+    }, 2000);
+  };
+
+  const handleDeleteAccount = async () => {
+    try {
+      setGifModal({
+        show: true,
+        gifSrc: loadingGif,
+        message: "Deleting account...",
+      });
+      const res = await deleteAccount();
+      setGifModal({
+        show: true,
+        gifSrc: loadingGif,
+        message: res.message || "Account deleted!",
+      });
+      localStorage.removeItem("token");
+      setTimeout(() => {
+        setGifModal({ show: false, gifSrc: "", message: "" });
+        nav("/login");
+      }, 2000);
+    } catch (err) {
+      setGifModal({
+        show: true,
+        gifSrc: failedGif,
+        message: err.message || "Failed to delete account.",
+      });
+      setTimeout(
+        () => setGifModal({ show: false, gifSrc: "", message: "" }),
+        2000,
+      );
+    }
   };
 
   return (
@@ -88,7 +177,15 @@ export default function Account() {
                 if (localStorage.getItem("token")) {
                   setEditField("password");
                 } else {
-                  alert("You must be logged in to change this setting.");
+                  setGifModal({
+                    show: true,
+                    gifSrc: failedGif,
+                    message: "You must be logged in to change this setting.",
+                  });
+                  setTimeout(
+                    () => setGifModal({ show: false, gifSrc: "", message: "" }),
+                    2000,
+                  );
                 }
               }}
               style={{ cursor: "pointer" }}
@@ -115,7 +212,21 @@ export default function Account() {
                       if (localStorage.getItem("token")) {
                         setTwoFactor(!twoFactor);
                       } else {
-                        alert("You must be logged in to change this setting.");
+                        setGifModal({
+                          show: true,
+                          gifSrc: failedGif,
+                          message:
+                            "You must be logged in to change this setting.",
+                        });
+                        setTimeout(
+                          () =>
+                            setGifModal({
+                              show: false,
+                              gifSrc: "",
+                              message: "",
+                            }),
+                          2000,
+                        );
                       }
                     }}
                   />
@@ -129,21 +240,7 @@ export default function Account() {
                 <span>Log Out</span>
               </div>
               <div className="item-right">
-                <button
-                  className="action-btn"
-                  onClick={() => {
-                    if (localStorage.getItem("token")) {
-                      localStorage.removeItem("token");
-                      localStorage.removeItem("userInfo");
-                      localStorage.removeItem("pendingProducts");
-
-                      alert("Logged out!");
-                      nav("/login");
-                    } else {
-                      alert("You are not logged in.");
-                    }
-                  }}
-                >
+                <button className="action-btn" onClick={handleLogout}>
                   Log Out
                 </button>
               </div>
@@ -159,7 +256,17 @@ export default function Account() {
                     if (localStorage.getItem("token")) {
                       setShowDeleteModal(true);
                     } else {
-                      alert("You must be logged in to change this setting.");
+                      setGifModal({
+                        show: true,
+                        gifSrc: failedGif,
+                        message:
+                          "You must be logged in to change this setting.",
+                      });
+                      setTimeout(
+                        () =>
+                          setGifModal({ show: false, gifSrc: "", message: "" }),
+                        2000,
+                      );
                     }
                   }}
                 >
@@ -170,6 +277,7 @@ export default function Account() {
           </div>
         )}
       </div>
+
       {localStorage.getItem("token") && editField === "password" && (
         <div className="edit-modal">
           <div className="edit-box">
@@ -198,7 +306,7 @@ export default function Account() {
       {localStorage.getItem("token") && showDeleteModal && (
         <div className="delete-modal">
           <div className="delete-box">
-            <h2 style={{ color: "red" }}>⚠️ WARNING! ⚠️</h2>
+            <h2 style={{ color: "red" }}>WARNING</h2>
             <p>
               You are about to <strong>permanently delete your account</strong>.
               This action <strong>cannot be undone</strong>.
@@ -228,16 +336,7 @@ export default function Account() {
                   border: "none",
                   cursor: confirmDelete ? "pointer" : "not-allowed",
                 }}
-                onClick={async () => {
-                  try {
-                    const res = await deleteAccount();
-                    alert(res.message || "Account deleted!");
-                    localStorage.removeItem("token");
-                    nav("/login");
-                  } catch (err) {
-                    alert(err.message || "Failed to delete account.");
-                  }
-                }}
+                onClick={handleDeleteAccount}
               >
                 DELETE FOREVER
               </button>
@@ -253,6 +352,13 @@ export default function Account() {
           </div>
         </div>
       )}
+
+      <GifModal
+        show={gifModal.show}
+        gifSrc={gifModal.gifSrc}
+        message={gifModal.message}
+        onClose={() => setGifModal({ show: false, gifSrc: "", message: "" })}
+      />
 
       <Footer />
     </div>

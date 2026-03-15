@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
 import Footer from "../Home/Footer";
 import { publishProduct } from "../api/productApi";
+import loadingGif from "../assets/Gif/loading.gif";
+import failedGif from "../assets/Gif/failed.gif";
+import GifModal from "../Tools/GifModal";
 
 export default function Publish() {
   const [productName, setProductName] = useState("");
@@ -14,6 +17,12 @@ export default function Publish() {
   const [imageLinks, setImageLinks] = useState([]);
   const [currentLink, setCurrentLink] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const [gifModal, setGifModal] = useState({
+    show: false,
+    gifSrc: "",
+    message: "",
+  });
 
   const nav = useNavigate();
 
@@ -33,13 +42,13 @@ export default function Publish() {
 
   const nextImage = () => {
     setCurrentImageIndex((prev) =>
-      prev === imageLinks.length - 1 ? 0 : prev + 1,
+      prev === imageLinks.length - 1 ? 0 : prev + 1
     );
   };
 
   const prevImage = () => {
     setCurrentImageIndex((prev) =>
-      prev === 0 ? imageLinks.length - 1 : prev - 1,
+      prev === 0 ? imageLinks.length - 1 : prev - 1
     );
   };
 
@@ -47,10 +56,9 @@ export default function Publish() {
     e.preventDefault();
 
     const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user"));
-
     if (!token) {
-      alert("You must be logged in to publish a product");
+      setGifModal({ show: true, gifSrc: failedGif, message: "You must be logged in to publish a product." });
+      setTimeout(() => setGifModal({ show: false, gifSrc: "", message: "" }), 2000);
       return;
     }
 
@@ -66,21 +74,24 @@ export default function Publish() {
     };
 
     try {
+      setGifModal({ show: true, gifSrc: loadingGif, message: "Publishing product..." });
       const savedProduct = await publishProduct(productData);
-      console.log("Published product:", savedProduct);
-      alert("Product published successfully!");
+      setGifModal({ show: true, gifSrc: loadingGif, message: "Product published successfully!" });
 
-      setProductName("");
-      setDescription("");
-      setTags("");
-      setPrice("");
-      setImageLinks([]);
-      setCurrentLink("");
-      setCurrentImageIndex(0);
-
-      nav("/main");
+      setTimeout(() => {
+        setGifModal({ show: false, gifSrc: "", message: "" });
+        setProductName("");
+        setDescription("");
+        setTags("");
+        setPrice("");
+        setImageLinks([]);
+        setCurrentLink("");
+        setCurrentImageIndex(0);
+        nav("/main");
+      }, 2000);
     } catch (err) {
-      alert("Error publishing product: " + err.message);
+      setGifModal({ show: true, gifSrc: failedGif, message: "Error publishing product: " + (err.message || "") });
+      setTimeout(() => setGifModal({ show: false, gifSrc: "", message: "" }), 2000);
     }
   };
 
@@ -119,20 +130,12 @@ export default function Publish() {
               ) : (
                 <div className="big-image-preview">
                   <div className="main-image-wrapper">
-                    <button
-                      className="arrow left"
-                      type="button"
-                      onClick={prevImage}
-                    >
-                      ❮
-                    </button>
-
+                    <button className="arrow left" type="button" onClick={prevImage}>❮</button>
                     <img
                       src={imageLinks[currentImageIndex]}
                       alt={`Preview ${currentImageIndex}`}
                       className="main-image"
                     />
-
                     <button
                       type="button"
                       className="remove-btn"
@@ -140,14 +143,7 @@ export default function Publish() {
                     >
                       &times;
                     </button>
-
-                    <button
-                      className="arrow right"
-                      type="button"
-                      onClick={nextImage}
-                    >
-                      ❯
-                    </button>
+                    <button className="arrow right" type="button" onClick={nextImage}>❯</button>
                   </div>
 
                   <div className="thumbnail-row">
@@ -230,16 +226,7 @@ export default function Publish() {
           </div>
 
           <div className="form-actions">
-            <button
-              type="submit"
-              className="publish-btn"
-              onClick={() => {
-                if (localStorage.getItem("token")) {
-                } else {
-                  alert("You must be logged in to publish a product");
-                }
-              }}
-            >
+            <button type="submit" className="publish-btn">
               Publish
             </button>
             <button
@@ -261,6 +248,14 @@ export default function Publish() {
           </div>
         </form>
       </div>
+
+      <GifModal
+        show={gifModal.show}
+        gifSrc={gifModal.gifSrc}
+        message={gifModal.message}
+        onClose={() => setGifModal({ show: false, gifSrc: "", message: "" })}
+      />
+
       <Footer />
     </div>
   );

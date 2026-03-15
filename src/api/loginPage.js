@@ -17,6 +17,9 @@ export async function registerUser({ username, email, password }) {
       throw new Error(data.error || "Registration failed");
     }
 
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+
     return data;
   } catch (error) {
     console.error("Register error:", error.message);

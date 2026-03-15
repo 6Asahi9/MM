@@ -5,6 +5,10 @@ import "boxicons/css/boxicons.min.css";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/Images/logo-modified.png";
 import { registerUser, loginUser } from "../api/loginPage";
+import loginGif from "../assets/gif/login.gif";
+import registerGif from "../assets/gif/register.gif";
+import failedGif from "../assets/gif/failed.gif";
+import GifModal from "../Tools/GifModal";
 
 const Login = () => {
   const nav = useNavigate();
@@ -32,6 +36,9 @@ const Login = () => {
   const [signUpPassword, setSignUpPassword] = React.useState("");
   const [loginEmail, setLoginEmail] = React.useState("");
   const [loginPassword, setLoginPassword] = React.useState("");
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [modalGif, setModalGif] = React.useState(null);
+  const [modalMessage, setModalMessage] = React.useState("");
 
   return (
     <div className="login-page">
@@ -62,12 +69,19 @@ const Login = () => {
                     password: signUpPassword,
                   });
                   console.log("User created:", result.user);
-                  alert(
-                    ` Registration successfully as ${result.user.username}!`,
-                  );
-                  nav("/login");
+                  setModalGif(registerGif);
+                  // setModalMessage(
+                  //   `Registration successful as ${result.user.username}!`,
+                  // );
+                  setModalVisible(true);
+                  setTimeout(() => {
+                    setModalVisible(false);
+                    nav("/main");
+                  }, 2000);
                 } catch (err) {
-                  alert(err.message);
+                  setModalGif(failedGif);
+                  setModalMessage(err.message);
+                  setModalVisible(true);
                 }
               }}
             >
@@ -120,11 +134,20 @@ const Login = () => {
                     email: loginEmail,
                     password: loginPassword,
                   });
-                  alert(`You have logged in as ${result.user.username}!`);
+                  setModalGif(loginGif);
+                  // setModalMessage(
+                  //   `You have logged in as ${result.user.username}!`,
+                  // );
+                  setModalVisible(true);
 
-                  nav("/main");
+                  setTimeout(() => {
+                    setModalVisible(false);
+                    nav("/main");
+                  }, 2000);
                 } catch (err) {
-                  alert(err.message);
+                  setModalGif(failedGif);
+                  setModalMessage(err.message);
+                  setModalVisible(true);
                 }
               }}
             >
@@ -189,6 +212,12 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <GifModal
+        show={modalVisible}
+        gifSrc={modalGif}
+        message={modalMessage}
+        onClose={() => setModalVisible(false)}
+      />
     </div>
   );
 };

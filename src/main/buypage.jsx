@@ -15,19 +15,21 @@ import {
   postReply,
 } from "../api/commentApi";
 import { findUserById } from "../api/userService";
+import loadingGif from "../assets/Gif/loading.gif";
+import failedGif from "../assets/Gif/failed.gif";
+import cartGif from "../assets/Gif/cart.gif";
+import GifModal from "../Tools/GifModal";
 
 const userCache = {};
 async function getUsername(userId) {
   if (!userId) return "Unknown";
   if (userCache[userId]) return userCache[userId];
-
   try {
     const data = await findUserById(userId);
     const username = data?.user?.username || "Unknown";
     userCache[userId] = username;
     return username;
-  } catch (err) {
-    console.error("Failed to get username:", err);
+  } catch {
     return "Unknown";
   }
 }
@@ -48,6 +50,12 @@ const BuyPage = () => {
   const [newComment, setNewComment] = useState("");
   const [newRating, setNewRating] = useState(5);
   const [replyText, setReplyText] = useState({});
+
+  const [gifModal, setGifModal] = useState({
+    show: false,
+    gifSrc: "",
+    message: "",
+  });
 
   const formatPriceINR = (price) => price.toLocaleString("en-IN");
   const shuffleArray = (array) =>
@@ -97,11 +105,9 @@ const BuyPage = () => {
       if (!product) return;
       try {
         const data = await fetchCommentsByProduct(product._id);
-
         const enriched = await Promise.all(
           data.map(async (c) => {
             c.username = await getUsername(c.user_id);
-
             if (c.replies?.length > 0) {
               c.replies = await Promise.all(
                 c.replies.map(async (r) => ({
@@ -110,11 +116,9 @@ const BuyPage = () => {
                 })),
               );
             }
-
             return c;
           }),
         );
-
         setComments(enriched);
       } catch (err) {
         console.error("Failed to load comments:", err);
@@ -131,7 +135,6 @@ const BuyPage = () => {
         content: newComment,
         rating: newRating,
       });
-
       if (added) {
         added.username = await getUsername(added.user_id);
         setComments((prev) => [...prev, added]);
@@ -139,7 +142,15 @@ const BuyPage = () => {
         setNewRating(5);
       }
     } catch (err) {
-      console.error("Failed to post comment:", err);
+      setGifModal({
+        show: true,
+        gifSrc: failedGif,
+        message: "Failed to post comment.",
+      });
+      setTimeout(
+        () => setGifModal({ show: false, gifSrc: "", message: "" }),
+        1500,
+      );
     }
   };
 
@@ -151,12 +162,72 @@ const BuyPage = () => {
       const added = await postReply(commentId, { content: text });
       const lastReply = added.replies[added.replies.length - 1];
       lastReply.username = await getUsername(lastReply.user_id);
-
       setComments((prev) => prev.map((c) => (c._id === commentId ? added : c)));
       setReplyText((prev) => ({ ...prev, [commentId]: "" }));
     } catch (err) {
-      console.error("Failed to post reply:", err);
+      setGifModal({
+        show: true,
+        gifSrc: failedGif,
+        message: "Failed to post reply.",
+      });
+      setTimeout(
+        () => setGifModal({ show: false, gifSrc: "", message: "" }),
+        2000,
+      );
     }
+  };
+
+  const handleAddToCart = async () => {
+    if (!localStorage.getItem("token")) {
+      setGifModal({
+        show: true,
+        gifSrc: failedGif,
+        message: "You must be logged in to use cart.",
+      });
+      setTimeout(
+        () => setGifModal({ show: false, gifSrc: "", message: "" }),
+        2000,
+      );
+      return;
+    }
+    try {
+      setGifModal({
+        show: true,
+        gifSrc: cartGif,
+        message: "Adding to cart...",
+      });
+      await addToCart(product._id, product.source);
+      setTimeout(() => {
+        setGifModal({ show: false, gifSrc: "", message: "" });
+        navigate("/cart");
+      }, 1500);
+    } catch (err) {
+      setGifModal({
+        show: true,
+        gifSrc: failedGif,
+        message: err.message || "Failed to add to cart.",
+      });
+      setTimeout(
+        () => setGifModal({ show: false, gifSrc: "", message: "" }),
+        2000,
+      );
+    }
+  };
+
+  const handleBuyNow = () => {
+    if (!localStorage.getItem("token")) {
+      setGifModal({
+        show: true,
+        gifSrc: failedGif,
+        message: "You must be logged in to buy a product.",
+      });
+      setTimeout(
+        () => setGifModal({ show: false, gifSrc: "", message: "" }),
+        2000,
+      );
+      return;
+    }
+    navigate("/checkout", { state: { product } });
   };
 
   if (loading) return <div>Loading...</div>;
@@ -173,7 +244,6 @@ const BuyPage = () => {
     price: p.price,
     image: p.images[0],
   }));
-
   const startIndex = (explorePage - 1) * explorePerPage;
   const endIndex = startIndex + explorePerPage;
   const exploreMoreProducts = shuffledFiltered
@@ -246,16 +316,13 @@ const BuyPage = () => {
                 ❯
               </button>
             </div>
-
             <div className="thumbnail-row">
               {product.images.map((img, index) => (
                 <img
                   key={index}
                   src={img}
                   alt="Thumbnail"
-                  className={`thumbnail ${
-                    index === currentImageIndex ? "active-thumb" : ""
-                  }`}
+                  className={`thumbnail ${index === currentImageIndex ? "active-thumb" : ""}`}
                   onClick={() => setCurrentImageIndex(index)}
                 />
               ))}
@@ -268,34 +335,10 @@ const BuyPage = () => {
             <p className="description">{product.description}</p>
 
             <div className="buttons">
-              <button
-                className="add-cart"
-                onClick={async () => {
-                  if (!localStorage.getItem("token")) {
-                    alert("You must be logged in to use cart");
-                    return;
-                  }
-                  try {
-                    await addToCart(product._id, product.source);
-                    navigate("/cart");
-                  } catch (err) {
-                    alert(err.message || "Failed to add to cart");
-                  }
-                }}
-              >
+              <button className="add-cart" onClick={handleAddToCart}>
                 Add to Cart
               </button>
-
-              <button
-                className="buy-now"
-                onClick={() => {
-                  if (localStorage.getItem("token")) {
-                    navigate("/checkout", { state: { product } });
-                  } else {
-                    alert("You must be Logged in to buy a product");
-                  }
-                }}
-              >
+              <button className="buy-now" onClick={handleBuyNow}>
                 Buy Now
               </button>
             </div>
@@ -304,7 +347,6 @@ const BuyPage = () => {
 
         <div className="comments-section">
           <h2>Comments</h2>
-
           {localStorage.getItem("token") && (
             <div className="new-comment">
               <textarea
@@ -330,7 +372,6 @@ const BuyPage = () => {
               </div>
             </div>
           )}
-
           {comments.length === 0 ? (
             <p>No comments yet. Be the first to comment!</p>
           ) : (
@@ -391,9 +432,16 @@ const BuyPage = () => {
             setCurrentPage={setExplorePage}
           />
         </div>
-
-        <Footer />
       </div>
+
+      <GifModal
+        show={gifModal.show}
+        gifSrc={gifModal.gifSrc}
+        message={gifModal.message}
+        onClose={() => setGifModal({ show: false, gifSrc: "", message: "" })}
+      />
+
+      <Footer />
     </div>
   );
 };
