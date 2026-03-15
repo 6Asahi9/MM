@@ -1,8 +1,8 @@
 import React from "react";
 import "./Hub.css";
-import "@fontsource/playfair-display/700.css"; // 400 ,600 ,700
+import "@fontsource/playfair-display/700.css";
 import Fade from "../Tools/Fade";
-import { useNavigate } from "react-router-dom"; // <-- import this
+import { useNavigate } from "react-router-dom";
 import img1 from "./Images/img1.jpg";
 import img2 from "./Images/img2.jpg";
 import img3 from "./Images/img3.jpg";

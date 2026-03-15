@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import cardImg from "../assets/images/Logo-modified.png";
+import cardImg from "../assets/Images/Logo-modified.png";
 import pawGif from "../assets/Gif/paw.gif";
 import "./Footer.css";
 import "boxicons/css/boxicons.min.css";

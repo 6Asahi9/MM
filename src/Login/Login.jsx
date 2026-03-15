@@ -5,9 +5,9 @@ import "boxicons/css/boxicons.min.css";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/Images/logo-modified.png";
 import { registerUser, loginUser } from "../api/loginPage";
-import loginGif from "../assets/gif/login.gif";
-import registerGif from "../assets/gif/register.gif";
-import failedGif from "../assets/gif/failed.gif";
+import loginGif from "../assets/Gif/login.gif";
+import registerGif from "../assets/Gif/register.gif";
+import failedGif from "../assets/Gif/failed.gif";
 import GifModal from "../Tools/GifModal";
 
 const Login = () => {
