@@ -18,6 +18,10 @@ export default function Publish() {
   const [currentLink, setCurrentLink] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  function formatPriceINR(price) {
+    return price.toLocaleString("en-IN");
+  }
+
   const [gifModal, setGifModal] = useState({
     show: false,
     gifSrc: "",
@@ -42,13 +46,13 @@ export default function Publish() {
 
   const nextImage = () => {
     setCurrentImageIndex((prev) =>
-      prev === imageLinks.length - 1 ? 0 : prev + 1
+      prev === imageLinks.length - 1 ? 0 : prev + 1,
     );
   };
 
   const prevImage = () => {
     setCurrentImageIndex((prev) =>
-      prev === 0 ? imageLinks.length - 1 : prev - 1
+      prev === 0 ? imageLinks.length - 1 : prev - 1,
     );
   };
 
@@ -57,8 +61,15 @@ export default function Publish() {
 
     const token = localStorage.getItem("token");
     if (!token) {
-      setGifModal({ show: true, gifSrc: failedGif, message: "You must be logged in to publish a product." });
-      setTimeout(() => setGifModal({ show: false, gifSrc: "", message: "" }), 2000);
+      setGifModal({
+        show: true,
+        gifSrc: failedGif,
+        message: "You must be logged in to publish a product.",
+      });
+      setTimeout(
+        () => setGifModal({ show: false, gifSrc: "", message: "" }),
+        2000,
+      );
       return;
     }
 
@@ -74,9 +85,17 @@ export default function Publish() {
     };
 
     try {
-      setGifModal({ show: true, gifSrc: loadingGif, message: "Publishing product..." });
+      setGifModal({
+        show: true,
+        gifSrc: loadingGif,
+        message: "Publishing product...",
+      });
       const savedProduct = await publishProduct(productData);
-      setGifModal({ show: true, gifSrc: loadingGif, message: "Product published successfully!" });
+      setGifModal({
+        show: true,
+        gifSrc: loadingGif,
+        message: "Product published successfully!",
+      });
 
       setTimeout(() => {
         setGifModal({ show: false, gifSrc: "", message: "" });
@@ -90,8 +109,15 @@ export default function Publish() {
         nav("/main");
       }, 2000);
     } catch (err) {
-      setGifModal({ show: true, gifSrc: failedGif, message: "Error publishing product: " + (err.message || "") });
-      setTimeout(() => setGifModal({ show: false, gifSrc: "", message: "" }), 2000);
+      setGifModal({
+        show: true,
+        gifSrc: failedGif,
+        message: "Error publishing product: " + (err.message || ""),
+      });
+      setTimeout(
+        () => setGifModal({ show: false, gifSrc: "", message: "" }),
+        2000,
+      );
     }
   };
 
@@ -130,7 +156,13 @@ export default function Publish() {
               ) : (
                 <div className="big-image-preview">
                   <div className="main-image-wrapper">
-                    <button className="arrow left" type="button" onClick={prevImage}>❮</button>
+                    <button
+                      className="arrow left"
+                      type="button"
+                      onClick={prevImage}
+                    >
+                      ❮
+                    </button>
                     <img
                       src={imageLinks[currentImageIndex]}
                       alt={`Preview ${currentImageIndex}`}
@@ -143,7 +175,13 @@ export default function Publish() {
                     >
                       &times;
                     </button>
-                    <button className="arrow right" type="button" onClick={nextImage}>❯</button>
+                    <button
+                      className="arrow right"
+                      type="button"
+                      onClick={nextImage}
+                    >
+                      ❯
+                    </button>
                   </div>
 
                   <div className="thumbnail-row">
@@ -175,7 +213,7 @@ export default function Publish() {
                 value={currentLink}
                 onChange={(e) => setCurrentLink(e.target.value)}
               />
-              <button type="button" onClick={addImageLink}>
+              <button id="image-add-btn" type="button" onClick={addImageLink}>
                 Add
               </button>
             </div>
@@ -215,11 +253,14 @@ export default function Publish() {
           <div className="form-group">
             <label>Price (₹)</label>
             <input
-              type="number"
-              min="0"
-              step="0.01"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              type="text"
+              value={price ? formatPriceINR(Number(price)) : ""}
+              onChange={(e) => {
+                const rawValue = e.target.value.replace(/,/g, "");
+                if (!isNaN(rawValue)) {
+                  setPrice(rawValue);
+                }
+              }}
               placeholder="Enter price"
               required
             />

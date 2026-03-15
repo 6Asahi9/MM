@@ -49,7 +49,7 @@ const SaleBanner = () => {
     <div className="sale-banner">
       <div className="sale-header">
         <h2 id="big-name">Make Waves This Season 🌊</h2>
-        <p id="smaller-name">Our Best Selling!</p>
+        <p id="smaller-name">Most Loved by Shoppers</p>
       </div>
 
       <div className="sale-products">

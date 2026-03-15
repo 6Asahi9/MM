@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css";
+import { color } from "framer-motion";
 
 function Bootstrap() {
   const [backendReady, setBackendReady] = useState(false);
@@ -29,6 +30,13 @@ function Bootstrap() {
           height: "100vh",
           flexDirection: "column",
           fontFamily: "sans-serif",
+          backgroundImage: `linear-gradient(
+      to top,
+      #000000 50%,
+      #1f3a5f 60%,
+      #2874a6 80%,
+      #d6eaf8 100%
+    )`,
           gap: "1rem",
         }}
       >
@@ -42,7 +50,9 @@ function Bootstrap() {
             animation: "spin 1s linear infinite",
           }}
         ></div>
-        <div style={{ fontSize: "1.5rem", textAlign: "center" }}>
+        <div
+          style={{ fontSize: "1.5rem", textAlign: "center", color: "white" }}
+        >
           Waking up backend... may need a minute or two
         </div>
 

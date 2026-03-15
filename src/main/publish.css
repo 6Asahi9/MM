@@ -156,3 +156,12 @@
   transform: scale(1.05);
   transition: transform 0.2s;
 }
+
+#image-add-btn {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}

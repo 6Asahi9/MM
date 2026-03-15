@@ -11,7 +11,7 @@
   padding: 60px 30px;
   margin-top: 20px;
   border-radius: 30px;
-  width: 95%;
+  width: 70%;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -29,8 +29,9 @@
 
 .sale-products {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, max-content));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   justify-content: center;
   gap: 25px;
   margin-top: 40px;
+  align-items: start;
 }

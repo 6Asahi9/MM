@@ -1,8 +1,8 @@
 import React from "react";
 import "./Hub.css";
 import "@fontsource/playfair-display/700.css"; // 400 ,600 ,700
-// import FadeInOutSection from "../Tools/FadeInOnce";
 import Fade from "../Tools/Fade";
+import { useNavigate } from "react-router-dom"; // <-- import this
 import img1 from "./Images/img1.jpg";
 import img2 from "./Images/img2.jpg";
 import img3 from "./Images/img3.jpg";
@@ -26,13 +26,22 @@ const products = [
 ];
 
 export default function Hub() {
+  const navigate = useNavigate();
+  const handleCardClick = () => {
+    navigate("/main");
+  };
+
   return (
     <div className="hub-container">
-      <h2>Best Selling Catagories</h2>
+      <h2>Our Best Sellers</h2>
       <div className="product-row">
         {products.map((item, index) => (
           <Fade key={item.id} delay={index * 0.2}>
-            <div className="product-card">
+            <div
+              className="product-card"
+              onClick={handleCardClick}
+              style={{ cursor: "pointer" }}
+            >
               <img src={item.img} alt={item.name} />
               <p>{item.name}</p>
             </div>
