@@ -134,6 +134,9 @@ export default function Account() {
                   onClick={() => {
                     if (localStorage.getItem("token")) {
                       localStorage.removeItem("token");
+                      localStorage.removeItem("userInfo");
+                      localStorage.removeItem("pendingProducts");
+
                       alert("Logged out!");
                       nav("/login");
                     } else {

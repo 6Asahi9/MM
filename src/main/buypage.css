@@ -23,7 +23,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: white;
+  background: transparent;
   padding: 8px 40px;
   height: 50px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -72,7 +72,7 @@
 }
 
 .image-section {
-  max-width: 500px; /* prevents stretching */
+  max-width: 500px;
   width: 100%;
 }
 
@@ -243,28 +243,125 @@
 }
 
 .comments-section {
-  margin-top: 2rem;
-  padding: 1rem;
-  border-top: 1px solid #ddd;
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.new-comment textarea {
-  width: 100%;
-  min-height: 60px;
-  margin-bottom: 0.5rem;
-  padding: 0.5rem;
+.comments-section h2 {
+  margin-bottom: 15px;
+  font-size: 1.8rem;
+  color: #333;
 }
 
-.new-comment button {
-  margin-left: 0.5rem;
+.new-comment textarea,
+.reply-form textarea {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  resize: vertical;
+}
+
+.new-comment div,
+.reply-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.new-comment select {
+  margin-left: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.new-comment button,
+.reply-form button {
+  padding: 6px 12px;
+  border: none;
+  background-color: #4a90e2;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.new-comment button:hover,
+.reply-form button:hover {
+  background-color: #357ab8;
 }
 
 .comment-list {
+  border: 1px solid;
+  border-radius: 20px;
   list-style: none;
-  padding: 0;
+  padding-left: 0;
+  margin-top: 20px;
 }
 
 .comment-item {
-  border-bottom: 1px solid #eee;
-  padding: 0.5rem 0;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  position: relative;
+}
+
+.comment-item strong {
+  color: #2c3e50;
+}
+
+.comment-item span {
+  margin-left: 5px;
+  color: #f39c12;
+}
+
+.comment-item p {
+  margin: 5px 0 8px;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.comment-item small {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.replies-list {
+  list-style: none;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.replies-list li {
+  padding: 10px;
+  border-left: 2px solid #ddd;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.reply-form {
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .comments-section {
+    padding: 15px;
+  }
+
+  .new-comment textarea,
+  .reply-form textarea {
+    border-color: #000;
+    font-size: 0.95rem;
+  }
+
+  .comment-item p {
+    font-size: 0.95rem;
+  }
 }

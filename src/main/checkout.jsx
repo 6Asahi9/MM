@@ -23,34 +23,37 @@ const CheckoutPage = () => {
   const [cvv, setCvv] = useState("");
 
   const [upi, setUpi] = useState("");
-
   const [bank, setBank] = useState("");
+
+  const [isProcessing, setIsProcessing] = useState(false); // prevents spam
 
   function formatPriceINR(price) {
     return price.toLocaleString("en-IN");
   }
 
   async function handlePayment() {
+    if (isProcessing) return;
+    setIsProcessing(true);
+
     try {
       if (paymentMethod === "card") {
         if (!cardNumber || !cardHolder || !expiry || !cvv) {
           alert("Please fill all card details");
+          setIsProcessing(false);
           return;
         }
       }
 
-      if (paymentMethod === "upi") {
-        if (!upi) {
-          alert("Please enter UPI ID");
-          return;
-        }
+      if (paymentMethod === "upi" && !upi) {
+        alert("Please enter UPI ID");
+        setIsProcessing(false);
+        return;
       }
 
-      if (paymentMethod === "netbanking") {
-        if (!bank) {
-          alert("Please select bank");
-          return;
-        }
+      if (paymentMethod === "netbanking" && !bank) {
+        alert("Please select bank");
+        setIsProcessing(false);
+        return;
       }
 
       try {
@@ -62,11 +65,12 @@ const CheckoutPage = () => {
       await setOrderStatus(product._id, "arrived");
 
       alert("Payment Successful");
-
       navigate("/main");
     } catch (err) {
       console.error(err);
       alert(err.message || "Payment failed");
+    } finally {
+      setIsProcessing(false);
     }
   }
 
@@ -180,8 +184,12 @@ const CheckoutPage = () => {
             Cancel
           </button>
 
-          <button className="confirm" onClick={handlePayment}>
-            Confirm Payment
+          <button
+            className="confirm"
+            onClick={handlePayment}
+            disabled={isProcessing}
+          >
+            {isProcessing ? "Processing..." : "Confirm Payment"}
           </button>
         </div>
       </div>

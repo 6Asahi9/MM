@@ -7,17 +7,9 @@ import { getOrdersWithProducts } from "../api/cartApi";
 
 export default function Cart() {
   const [tab, setTab] = useState("cart");
-  const [pendingProducts, setPendingProducts] = useState(() => {
-    const cached = localStorage.getItem("pendingProducts");
-    return cached ? JSON.parse(cached) : [];
-  });
-  const [completedProducts, setCompletedProducts] = useState(() => {
-    const cached = localStorage.getItem("completedProducts");
-    return cached ? JSON.parse(cached) : [];
-  });
-  const [loading, setLoading] = useState(
-    pendingProducts.length === 0 && completedProducts.length === 0,
-  );
+  const [pendingProducts, setPendingProducts] = useState([]);
+  const [completedProducts, setCompletedProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const nav = useNavigate();
 
@@ -38,8 +30,6 @@ export default function Cart() {
 
         setPendingProducts(pending);
         setCompletedProducts(completed);
-        localStorage.setItem("pendingProducts", JSON.stringify(pending));
-        localStorage.setItem("completedProducts", JSON.stringify(completed));
       } catch (err) {
         console.error(err.message);
       } finally {
