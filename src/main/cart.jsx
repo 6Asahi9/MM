@@ -7,8 +7,18 @@ import { getOrdersWithProducts } from "../api/cartApi";
 
 export default function Cart() {
   const [tab, setTab] = useState("cart");
-  const [pendingProducts, setPendingProducts] = useState([]);
-  const [completedProducts, setCompletedProducts] = useState([]);
+  const [pendingProducts, setPendingProducts] = useState(() => {
+    const cached = localStorage.getItem("pendingProducts");
+    return cached ? JSON.parse(cached) : [];
+  });
+  const [completedProducts, setCompletedProducts] = useState(() => {
+    const cached = localStorage.getItem("completedProducts");
+    return cached ? JSON.parse(cached) : [];
+  });
+  const [loading, setLoading] = useState(
+    pendingProducts.length === 0 && completedProducts.length === 0,
+  );
+
   const nav = useNavigate();
 
   function formatPriceINR(price) {
@@ -19,20 +29,24 @@ export default function Cart() {
     async function fetchOrders() {
       try {
         const ordersWithProducts = await getOrdersWithProducts();
-        setPendingProducts(
-          ordersWithProducts
-            .filter((o) => o.status === "pending")
-            .map((o) => o.product),
-        );
-        setCompletedProducts(
-          ordersWithProducts
-            .filter((o) => o.status === "arrived")
-            .map((o) => o.product),
-        );
+        const pending = ordersWithProducts
+          .filter((o) => o.status === "pending")
+          .map((o) => o.product);
+        const completed = ordersWithProducts
+          .filter((o) => o.status === "arrived")
+          .map((o) => o.product);
+
+        setPendingProducts(pending);
+        setCompletedProducts(completed);
+        localStorage.setItem("pendingProducts", JSON.stringify(pending));
+        localStorage.setItem("completedProducts", JSON.stringify(completed));
       } catch (err) {
         console.error(err.message);
+      } finally {
+        setLoading(false);
       }
     }
+
     fetchOrders();
   }, []);
 
@@ -84,9 +98,11 @@ export default function Cart() {
 
         {tab === "cart" && (
           <div className="cart-products">
-            {pendingProducts.length === 0 ? (
+            {loading && <p>Loading your cart… 🛒</p>}
+            {!loading && pendingProducts.length === 0 && (
               <p>Your cart is empty 🛒</p>
-            ) : (
+            )}
+            {!loading &&
               pendingProducts.map((p) => (
                 <div
                   key={p._id}
@@ -100,9 +116,8 @@ export default function Cart() {
                     <p className="cart-price">₹{formatPriceINR(p.price)}</p>
                   </div>
                 </div>
-              ))
-            )}
-            {pendingProducts.length > 0 && (
+              ))}
+            {!loading && pendingProducts.length > 0 && (
               <div className="cart-total">
                 <strong>Total: ₹{formatPriceINR(totalPrice)}</strong>
               </div>
@@ -112,9 +127,11 @@ export default function Cart() {
 
         {tab === "past" && (
           <div className="past-orders">
-            {completedProducts.length === 0 ? (
+            {loading && <p>Loading past orders…</p>}
+            {!loading && completedProducts.length === 0 && (
               <p>No completed orders yet.</p>
-            ) : (
+            )}
+            {!loading &&
               completedProducts.map((p) => (
                 <div
                   key={p._id}
@@ -128,8 +145,7 @@ export default function Cart() {
                     <p className="cart-price">₹{formatPriceINR(p.price)}</p>
                   </div>
                 </div>
-              ))
-            )}
+              ))}
           </div>
         )}
       </div>

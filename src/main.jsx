@@ -27,12 +27,33 @@ function Bootstrap() {
           justifyContent: "center",
           alignItems: "center",
           height: "100vh",
-          fontSize: "2rem",
           flexDirection: "column",
           fontFamily: "sans-serif",
+          gap: "1rem",
         }}
       >
-        Waking up backend...
+        <div
+          style={{
+            border: "6px solid #f3f3f3",
+            borderTop: "6px solid #3498db",
+            borderRadius: "50%",
+            width: "60px",
+            height: "60px",
+            animation: "spin 1s linear infinite",
+          }}
+        ></div>
+        <div style={{ fontSize: "1.5rem", textAlign: "center" }}>
+          Waking up backend... may need a minute or two
+        </div>
+
+        <style>
+          {`
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          `}
+        </style>
       </div>
     );
   }

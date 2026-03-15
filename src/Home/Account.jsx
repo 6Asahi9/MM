@@ -8,30 +8,38 @@ import { getUser, updateUser } from "../api/userService";
 export default function Account() {
   const nav = useNavigate();
   const [tab, setTab] = useState("profile");
-
-  const [userInfo, setUserInfo] = useState({
-    name: "Guest",
-    email: "",
-    phone: "",
-    bank: "",
-    upi: "",
-    dob: "",
-    address: "",
-  });
-
+  const [loading, setLoading] = useState(true);
   const [editField, setEditField] = useState(null);
   const [newValue, setNewValue] = useState("");
+
+  const [userInfo, setUserInfo] = useState(() => {
+    const cached = localStorage.getItem("userInfo");
+    return cached
+      ? JSON.parse(cached)
+      : {
+          name: "Guest",
+          email: "",
+          phone: "",
+          bank: "",
+          upi: "",
+          dob: "",
+          address: "",
+        };
+  });
 
   const isGuest = userInfo.name === "Guest";
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) return;
+    if (!token) {
+      setLoading(false);
+      return;
+    }
 
     const fetchUser = async () => {
       try {
         const data = await getUser();
-        setUserInfo({
+        const freshUser = {
           name: data.user.username || "Guest",
           email: data.user.email || "",
           phone: data.user.phone || "",
@@ -39,9 +47,13 @@ export default function Account() {
           upi: data.user.upi || "",
           dob: data.user.dob || "",
           address: data.user.address || "",
-        });
+        };
+        setUserInfo(freshUser);
+        localStorage.setItem("userInfo", JSON.stringify(freshUser));
       } catch (err) {
         console.log("No valid session");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -50,18 +62,11 @@ export default function Account() {
 
   useEffect(() => {
     const handleEsc = (event) => {
-      if (event.key === "Escape") {
-        cancelChange();
-      }
+      if (event.key === "Escape") cancelChange();
     };
 
-    if (editField) {
-      window.addEventListener("keydown", handleEsc);
-    }
-
-    return () => {
-      window.removeEventListener("keydown", handleEsc);
-    };
+    if (editField) window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
   }, [editField]);
 
   const getInputType = () => {
@@ -79,10 +84,12 @@ export default function Account() {
     try {
       await updateUser(editField, newValue);
 
-      setUserInfo({
+      const updated = {
         ...userInfo,
         [editField]: newValue,
-      });
+      };
+      setUserInfo(updated);
+      localStorage.setItem("userInfo", JSON.stringify(updated));
 
       setEditField(null);
       setNewValue("");
@@ -120,7 +127,6 @@ export default function Account() {
           >
             Profile
           </button>
-
           <button onClick={() => nav("/security")}>Security</button>
           <button onClick={() => nav("/cart")}>My Cart</button>
           <button onClick={() => nav("/publish")}>Publish</button>
@@ -130,48 +136,51 @@ export default function Account() {
           <div className="profile-tab">
             <p
               className={`editable-field ${isGuest ? "disabled-field" : ""}`}
-              onClick={() => tryEdit("username")}
+              onClick={() => tryEdit("name")}
             >
-              <strong>User Name:</strong> {userInfo.name}
+              <strong>User Name:</strong>{" "}
+              {loading ? "Loading..." : userInfo.name}
             </p>
 
             <p className="disabled-field">
-              <strong>Email:</strong> {userInfo.email}
+              <strong>Email:</strong> {loading ? "Loading..." : userInfo.email}
             </p>
 
             <p
               className={`editable-field ${isGuest ? "disabled-field" : ""}`}
               onClick={() => tryEdit("phone")}
             >
-              <strong>Phone:</strong> {userInfo.phone}
+              <strong>Phone:</strong> {loading ? "Loading..." : userInfo.phone}
             </p>
 
             <p
               className={`editable-field ${isGuest ? "disabled-field" : ""}`}
               onClick={() => tryEdit("address")}
             >
-              <strong>Address:</strong> {userInfo.address}
+              <strong>Address:</strong>{" "}
+              {loading ? "Loading..." : userInfo.address}
             </p>
 
             <p
               className={`editable-field ${isGuest ? "disabled-field" : ""}`}
               onClick={() => tryEdit("dob")}
             >
-              <strong>DOB:</strong> {userInfo.dob}
+              <strong>DOB:</strong> {loading ? "Loading..." : userInfo.dob}
             </p>
 
             <p
               className={`editable-field ${isGuest ? "disabled-field" : ""}`}
               onClick={() => tryEdit("bank")}
             >
-              <strong>Bank:</strong> {userInfo.bank}
+              <strong>Bank:</strong> {loading ? "Loading..." : userInfo.bank}
             </p>
 
             <p
               className={`editable-field ${isGuest ? "disabled-field" : ""}`}
               onClick={() => tryEdit("upi")}
             >
-              <strong>UPI number:</strong> {userInfo.upi}
+              <strong>UPI number:</strong>{" "}
+              {loading ? "Loading..." : userInfo.upi}
             </p>
           </div>
         )}
