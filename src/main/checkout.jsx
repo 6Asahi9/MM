@@ -8,6 +8,7 @@ import loadingGif from "../assets/Gif/loading.gif";
 import failedGif from "../assets/Gif/failed.gif";
 import paymentGif from "../assets/Gif/payment.gif";
 import GifModal from "../Tools/GifModal";
+import React, { useState, useRef } from "react";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const CheckoutPage = () => {
   const [upi, setUpi] = useState("");
   const [bank, setBank] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const paymentLock = useRef(false);
 
   const [gifModal, setGifModal] = useState({
     show: false,
@@ -45,7 +47,9 @@ const CheckoutPage = () => {
   };
 
   const handlePayment = async () => {
-    if (isProcessing) return;
+    if (paymentLock.current) return;
+
+    paymentLock.current = true;
     setIsProcessing(true);
 
     try {
@@ -97,6 +101,7 @@ const CheckoutPage = () => {
     } catch (err) {
       showFailed(err.message || "Payment failed");
     } finally {
+      paymentLock.current = false;
       setIsProcessing(false);
     }
   };
