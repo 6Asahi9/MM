@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./checkout.css";
 import Footer from "../Home/Footer";
@@ -8,7 +8,6 @@ import loadingGif from "../assets/Gif/loading.gif";
 import failedGif from "../assets/Gif/failed.gif";
 import paymentGif from "../assets/Gif/payment.gif";
 import GifModal from "../Tools/GifModal";
-import React, { useState, useRef } from "react";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
