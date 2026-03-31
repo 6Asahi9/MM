@@ -17,17 +17,20 @@ const Login = () => {
     const signUpBtn = document.getElementById("signUp");
     const signInBtn = document.getElementById("signIn");
 
-    signUpBtn.addEventListener("click", () => {
+    const activateSignUp = () => {
       container.classList.add("right-panel-active");
-    });
+    };
 
-    signInBtn.addEventListener("click", () => {
+    const activateSignIn = () => {
       container.classList.remove("right-panel-active");
-    });
+    };
+
+    signUpBtn.addEventListener("click", activateSignUp);
+    signInBtn.addEventListener("click", activateSignIn);
 
     return () => {
-      signUpBtn.removeEventListener("click", () => {});
-      signInBtn.removeEventListener("click", () => {});
+      signUpBtn.removeEventListener("click", activateSignUp);
+      signInBtn.removeEventListener("click", activateSignIn);
     };
   }, []);
 
@@ -39,6 +42,9 @@ const Login = () => {
   const [modalVisible, setModalVisible] = React.useState(false);
   const [modalGif, setModalGif] = React.useState(null);
   const [modalMessage, setModalMessage] = React.useState("");
+  const showAlert = (name) => {
+    alert(`${name} login is under integration right now.`);
+  };
 
   return (
     <div className="login-page">
@@ -105,20 +111,44 @@ const Login = () => {
                 onChange={(e) => setSignUpPassword(e.target.value)}
               />
               <p>Register with other Platforms!</p>
-              {/* <div className="social-icons">
-                <a href="#">
+              <div className="social-icons">
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    showAlert("Google");
+                  }}
+                >
                   <i className="bx bxl-google"></i>
                 </a>
-                <a href="#">
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    showAlert("facebook");
+                  }}
+                >
                   <i className="bx bxl-facebook"></i>
                 </a>
-                <a href="#">
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    showAlert("Github");
+                  }}
+                >
                   <i className="bx bxl-github"></i>
                 </a>
-                <a href="#">
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    showAlert("linkedin");
+                  }}
+                >
                   <i className="bx bxl-linkedin"></i>
                 </a>
-              </div> */}
+              </div>
               <button type="submit" className="btn">
                 Register
               </button>
@@ -165,23 +195,57 @@ const Login = () => {
                 onChange={(e) => setLoginPassword(e.target.value)}
               />
               <div className="forgot-link">
-                <a href="#">Forgot your password?</a>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    alert(
+                      "Password recovery email feature is under integration.",
+                    );
+                  }}
+                >
+                  Forgot your password?
+                </a>
               </div>
               <p>Login with other Platforms!</p>
-              {/* <div className="social-icons">
-                <a href="#">
+              <div className="social-icons">
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    showAlert("Google");
+                  }}
+                >
                   <i className="bx bxl-google"></i>
                 </a>
-                <a href="#">
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    showAlert("facebook");
+                  }}
+                >
                   <i className="bx bxl-facebook"></i>
                 </a>
-                <a href="#">
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    showAlert("Github");
+                  }}
+                >
                   <i className="bx bxl-github"></i>
                 </a>
-                <a href="#">
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    showAlert("linkedin");
+                  }}
+                >
                   <i className="bx bxl-linkedin"></i>
                 </a>
-              </div> */}
+              </div>
               <button type="submit" className="btn">
                 Login
               </button>
