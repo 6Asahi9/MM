@@ -7,7 +7,8 @@ const rateLimit = require("express-rate-limit");
 
 const connectMongo = require("./config/mongo");
 const pool = require("./config/db");
-
+const session = require("express-session");
+const passport = require("./config/passport");
 const productRoutes = require("./routes/product.routes");
 const authRoutes = require("./routes/auth.routes");
 const orderRoutes = require("./routes/order.routes");
@@ -18,11 +19,22 @@ const { errorHandler } = require("./middleware/error.middleware");
 
 const app = express();
 
+app.use(express.json());
+app.use(
+  session({
+    secret: process.env.JWT_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  }),
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(helmet());
 
 const allowedOrigins = [
   process.env.FRONTEND_URL?.trim(),
-  // "http://localhost:5173",
+  "http://localhost:5173",
   "https://mm-hxbs.onrender.com",
 ];
 

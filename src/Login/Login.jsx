@@ -105,7 +105,7 @@ const Login = () => {
                 onChange={(e) => setSignUpPassword(e.target.value)}
               />
               <p>Register with other Platforms!</p>
-              <div className="social-icons">
+              {/* <div className="social-icons">
                 <a href="#">
                   <i className="bx bxl-google"></i>
                 </a>
@@ -118,7 +118,7 @@ const Login = () => {
                 <a href="#">
                   <i className="bx bxl-linkedin"></i>
                 </a>
-              </div>
+              </div> */}
               <button type="submit" className="btn">
                 Register
               </button>
@@ -168,7 +168,7 @@ const Login = () => {
                 <a href="#">Forgot your password?</a>
               </div>
               <p>Login with other Platforms!</p>
-              <div className="social-icons">
+              {/* <div className="social-icons">
                 <a href="#">
                   <i className="bx bxl-google"></i>
                 </a>
@@ -181,7 +181,7 @@ const Login = () => {
                 <a href="#">
                   <i className="bx bxl-linkedin"></i>
                 </a>
-              </div>
+              </div> */}
               <button type="submit" className="btn">
                 Login
               </button>

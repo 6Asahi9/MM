@@ -7,7 +7,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/callback",
+      callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -23,14 +23,23 @@ passport.use(
         let user = result.rows[0];
 
         if (!user) {
-          const newUser = await pool.query(
-            `INSERT INTO users (username,email,oauth_provider,oauth_id)
-             VALUES ($1,$2,$3,$4)
-             RETURNING *`,
-            [username, email, "google", googleId],
+          const existingEmail = await pool.query(
+            "SELECT * FROM users WHERE email=$1",
+            [email],
           );
 
-          user = newUser.rows[0];
+          if (existingEmail.rows.length > 0) {
+            user = existingEmail.rows[0];
+          } else {
+            const newUser = await pool.query(
+              `INSERT INTO users (username,email,oauth_provider,oauth_id)
+               VALUES ($1,$2,$3,$4)
+               RETURNING *`,
+              [username, email, "google", googleId],
+            );
+
+            user = newUser.rows[0];
+          }
         }
 
         return done(null, user);
@@ -40,5 +49,19 @@ passport.use(
     },
   ),
 );
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const result = await pool.query("SELECT * FROM users WHERE id=$1", [id]);
+
+    done(null, result.rows[0]);
+  } catch (err) {
+    done(err, null);
+  }
+});
 
 module.exports = passport;

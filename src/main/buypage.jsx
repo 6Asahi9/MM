@@ -237,8 +237,10 @@ const BuyPage = () => {
   const filteredProducts = otherProducts.filter((p) =>
     p.title.toLowerCase().includes(searchTerm.toLowerCase()),
   );
-  const shuffledFiltered = shuffleArray(filteredProducts);
-  const recommendedProducts = shuffledFiltered.slice(0, 4).map((p) => ({
+  // const shuffledFiltered = shuffleArray(filteredProducts);
+  const recommendedShuffle = shuffleArray([...filteredProducts]);
+  const exploreShuffle = shuffleArray([...filteredProducts]);
+  const recommendedProducts = recommendedShuffle.slice(0, 4).map((p) => ({
     id: p._id,
     title: p.title,
     price: p.price,
@@ -246,7 +248,7 @@ const BuyPage = () => {
   }));
   const startIndex = (explorePage - 1) * explorePerPage;
   const endIndex = startIndex + explorePerPage;
-  const exploreMoreProducts = shuffledFiltered
+  const exploreMoreProducts = exploreShuffle
     .slice(startIndex, endIndex)
     .map((p) => ({
       id: p._id,
